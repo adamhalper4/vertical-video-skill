@@ -141,6 +141,24 @@ Cut-sheet schema (the contract the assembler consumes), contiguous + gap-free:
   earlier pipeline modules (orbit + assembly + orchestration scaffolding)
 - `SKILL.md` — original methodology (one-take model, angle sets). `INSTALL.md`, `README.md`.
 
+## 8b. Recommended steps (these are what actually made it good — don't skip)
+1. **Gate every generated angle frame BEFORE proceeding, with ≤1 retry.** Generation is stochastic;
+   one bad frame poisons everything downstream (the side look, every render, the final cut). After
+   the orbit, validate the picked frame with the vision+identity gates (§3): Gemini for
+   turn/gaze/artifacts, insightface ArcFace for identity, Gemini overlap for cohesion. If it fails,
+   **re-roll once**; if it still fails, stop and surface it rather than shipping a bad look. This one
+   gate is what killed the David eye-on-wall artifact and the "doesn't look like me" side angles.
+   (Same principle applies to the HOME frame before you orbit it.)
+2. **Ship 3 director-cut variations per request, for free.** Every angle already renders the FULL
+   clip and the master audio is shared, so producing alternates is just re-running the cut sheet +
+   ffmpeg — **no re-render of any audio or video** (cents of LLM + ffmpeg vs. dollars + minutes of
+   avatar render). Generate three and let the user pick:
+   - **Energetic** — `pace="social"` (more, shorter cuts; more close-up emphasis).
+   - **Standard** — `pace="auto"`/`"balanced"` (the default director rhythm).
+   - **Minimal** — `pace="calm"` (few cuts, long holds; ~1 side excursion).
+   All three reuse `home.mp4` / `side.mp4` / `master audio`; only `build_cut_sheet(pace=...)` +
+   `profile_assemble*` change. Make this the default UX, not an extra.
+
 ## 8. What to harden for production (the scratch orchestration was per-batch)
 - The orbit/frame-pick script uses hardcoded local paths + a per-batch `manifest.json`. Turn it into
   a function: `(seed_image_url, home_frame, orientation) → profile_image_url`.
