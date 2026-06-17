@@ -1,0 +1,259 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Existing Footage → Avatar — TikTok</title>
+<style>
+:root{--bg:#f6f4fb;--card:#fff;--ink:#16131f;--muted:#6b6577;--line:#e7e2f0;--accent:#0ea5b7;--accent2:#5eead4;--good:#0f9d58;--warn:#d98300;--bad:#d23f3f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:44px 22px 90px}
+h1{font-size:40px;line-height:1.1;margin:0 0 6px;letter-spacing:-.02em}
+h2{font-size:26px;margin:54px 0 14px;letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
+h2 .n{display:inline-flex;width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;font-size:15px;align-items:center;justify-content:center;flex:none}
+h3{font-size:18px;margin:26px 0 10px}
+.sub{color:var(--muted);font-size:18px;margin:0 0 4px}
+.kicker{text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--accent);font-weight:700;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:18px 0;box-shadow:0 1px 3px rgba(20,10,40,.04)}
+.hr{height:1px;background:var(--line);border:0;margin:46px 0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+video,img.shot{width:100%;border-radius:12px;display:block;background:#000;border:1px solid var(--line)}
+.cap{font-size:13px;color:var(--muted);margin-top:7px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#eefcfb;color:var(--accent);margin:0 6px 6px 0}
+.pill{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.pill.good{background:#e7f6ee;color:var(--good)}.pill.warn{background:#fdf1df;color:var(--warn)}.pill.bad{background:#fbe9e9;color:var(--bad)}
+.lead{font-size:18px;color:#2c2640}
+.callout{border-left:3px solid var(--accent);background:#eefcfb;padding:14px 18px;border-radius:0 12px 12px 0;margin:16px 0}
+.big{font-size:30px;font-weight:800;letter-spacing:-.01em}
+ul.tight{margin:8px 0 0;padding-left:20px}ul.tight li{margin:5px 0}
+.foot{color:var(--muted);font-size:13px;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+code{background:#e6f7f7;padding:1px 6px;border-radius:5px;font-size:13px}
+</style></head><body><div class="wrap">
+
+<div class="kicker">HeyGen · Avatar R&amp;D · Existing-Footage Pipeline</div>
+<h1>Existing Footage → Avatar — TikTok</h1>
+<p class="sub">The same pipeline as the YouTube and Instagram editions, pointed at <code>tiktok.com</code> — <code>yt-dlp</code> pull → identity-locked Avatar V twin → cloned voice → Image-N looks → emotion-routed demo. Companion to the <em>Instagram</em> report.</p>
+<p class="foot">Eval run · 2026-06-17 · 10 TikTok accounts, full demos. &nbsp;<b>Series:</b> <a href="https://www.heygenverse.com/a/11b1ef0b-b85c-4c9f-a5d6-dce9a17be7fc">YouTube → Avatar</a> &nbsp;·&nbsp; <a href="https://www.heygenverse.com/a/caed9ada-577b-4a56-ade1-7676363e31d5">Instagram → Avatar</a> &nbsp;·&nbsp; TikTok (this).</p>
+
+<div class="card">
+<div class="kicker">TL;DR</div>
+<p class="lead">The TikTok skill (<code>av-tiktok-twin</code>) ran end-to-end on <b>10 real creators</b> — finance, nutrition, medicine, skincare, wellness, plus a Romanian-language and an AI-generated source — with <b>zero new code</b>. Every twin trained, every voice cloned, every arc rendered. Three findings define the deliverable.</p>
+<div class="grid g3" style="margin-top:14px">
+<div><div class="big" style="color:var(--good)">10 / 10</div><div class="cap">twins trained + voices cloned + emotion arcs rendered</div></div>
+<div><div class="big" style="color:var(--good)">0.88</div><div class="cap">best look identity (humphreytalks); new set median ≈ 0.82</div></div>
+<div><div class="big" style="color:var(--accent)">Image-N = the clean deliverable</div><div class="cap">caption-free generated looks vs caption-bleeding raw twins</div></div>
+</div>
+<div class="callout" style="margin-top:18px"><b>Three findings.</b> (1) <b>Caption bleed.</b> Avatar V is cross-reference-driven, so a raw twin from caption-heavy short-form footage faithfully <em>reproduces the burned-in captions</em>. The Image-N generated-look path is caption-free — making it the recommended deliverable for social creators. (2) <b>Dual-self sources break raw twins.</b> Vivian Tu's viral “Regular vs Rich” format films two of her on screen at once; the raw twin reproduces <em>both figures</em>. The look path sidesteps it. (3) <b>The twin window must be a pure talking-head</b> — short-form interleaves graphics, b-roll and reaction-PIP; a contact sheet catches it in seconds (cameron's first window failed "missing faces").</div>
+</div>
+
+<hr class="hr">
+
+<h2><span class="n">1</span>aripa.ong — Romanian legal presenter (best of the set)</h2>
+<p class="sub">Citizen-rights / insurance explainer (content in Romanian). A clean studio talking-head → strongest looks of the TikTok set, demo in his cloned Romanian voice.</p>
+<span class="tag">Source: studio talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓ (RO)</span><span class="pill good">looks 0.82 / 0.78</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/293c9a15450d4af9bf198d5d3ebbef34/original.mp4"></video><div class="cap">Source TikTok.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/c6d8d916326d48a8ab6c474344802de9/original.mp4"></video><div class="cap">4-beat arc, cloned RO voice.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo ⚖️</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/edc05ae36b1d420a9b0ab1aa90e574fe/original.jpg"><div class="cap">Broadcast studio.</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/42d273a1121446b1bbf7367164e0d6a9/original.jpg"><div class="cap">Law office.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/efac900fc75e4a7d832a33aff12efc20/original.mp4"></video><div class="cap">Generated-look, caption-free.</div></div>
+</div></div>
+</div>
+
+<hr class="hr">
+
+<h2><span class="n">2</span>steve.mudd — "Talentless AI" (AI-generated source)</h2>
+<p class="sub">An AI-content anthology account with several AI characters. We picked the one clip with a <b>consistent single identity</b> (a man reciting Ozymandias on a desert highway) — and the pipeline twinned it cleanly. A twin of an AI character, but a useful clean-input case.</p>
+<span class="tag">Source: AI-gen, single identity</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.76 / 0.78</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/b89a79dc821445448209e4787a1c65fd/original.mp4"></video><div class="cap">Source TikTok (Ozymandias).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/6b4a7324e2cf47db9bf05830690ee5ab/original.mp4"></video><div class="cap">4-beat arc, cloned voice.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🎨</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/c72645677e8c4825986eecd5d986019b/original.jpg"><div class="cap">Art studio.</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/34f68b055b5f44fdbd755564c668f791/original.jpg"><div class="cap">Desert highway.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/12cafed88d3749edaa612bf453975396/original.mp4"></video><div class="cap">Generated-look, on-brand &amp; caption-free.</div></div>
+</div></div>
+</div>
+
+<hr class="hr">
+
+<h2><span class="n">3</span>cameron.tsue — twin + recovered looks</h2>
+<p class="sub">Canadian economics commentary. Two instructive issues, both fixed: the clip interleaves title-cards, explainer graphics and b-roll (first twin window failed "missing faces" — re-windowed to a clean talking segment), and the first look-gen pass collapsed identity (0.14) until an explicit <em>"same face, wearing glasses"</em> prompt recovered it.</p>
+<span class="tag">Source: talking-head + heavy graphics</span><span class="tag">Twin: Avatar V ✓ (2nd window)</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.78 / 0.81 (re-roll)</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/f367495946b64798bba9f5d722b78f28/original.mp4"></video><div class="cap">Source — title-cards &amp; graphics between talking segments.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/7ef02544d2d341d2a62b64506e1ce511/original.mp4"></video><div class="cap">4-beat arc — identity preserved, forward-facing.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 📈</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/aa43b8fbbc68409a80c70ff4af16d6ae/original.jpg"><div class="cap">Bookshelf office (ArcFace 0.81).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/d631c0023a9f4a19ba1909bfe7ab2a45/original.jpg"><div class="cap">Finance studio (0.78).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/14dbce230705497b9510ee1a49ebdf44/original.mp4"></video><div class="cap">Generated-look demo, caption-free.</div></div>
+</div>
+<p class="cap" style="margin-top:10px"><b>The recovery:</b> the first look pass produced a <em>different person</em> (ArcFace 0.14). Re-rolling with an explicit identity clause (“same face, wearing glasses”) lifted it to <b>0.81</b> — look-gen identity is prompt-sensitive, and a targeted re-roll fixes a collapse.</p>
+</div>
+</div>
+
+
+<hr class="hr">
+<h2><span class="n">4</span>humphreytalks — Humphrey Yang (personal-finance educator)</h2>
+<p class="sub">One of TikTok's biggest personal-finance voices. A clean home-office talking-head → the strongest twin of the new set.</p>
+<span class="tag">Source: TikTok talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.86 / 0.88</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/21c0ed6eeabb401aa6b2df6dbf611fb1/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/f7bc4b7015c34530913eda674bc5ff62/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Note: Avatar V cross-references the scene, so the raw arc <b>reproduces the source's burned-in captions</b>.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 💸</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/c799d52b5b4449b9a6c6edce90b0b663/original.jpg"><div class="cap">Home office / blazer (ArcFace 0.86).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/78fed39e424f4f9bbd930b45222dd7c5/original.jpg"><div class="cap">Podcast studio / sweater (ArcFace 0.88).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/fc0f0bfb97084aed8b0e8959d751d71a/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+<hr class="hr">
+<h2><span class="n">5</span>abbeyskitchen — Abbey Sharp (registered dietitian)</h2>
+<p class="sub">Registered dietitian debunking nutrition myths. Bright kitchen talking-head with heavy on-screen captions.</p>
+<span class="tag">Source: TikTok talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.84 / 0.84</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/1eea95ce8043429ba48ad132fdc92233/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/16a81b9331244d029f4469eb1c2602f2/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Note: Avatar V cross-references the scene, so the raw arc <b>reproduces the source's burned-in captions</b>.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🥗</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/67904790d15346ffb64dfa56d24ea18d/original.jpg"><div class="cap">Modern kitchen / apron (ArcFace 0.84).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/7f91b40c0110490d83a57df3e6fd138a/original.jpg"><div class="cap">Wellness studio (ArcFace 0.84).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/f26c13b892574500b184eb702715040a/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+<hr class="hr">
+<h2><span class="n">6</span>yourrichbff — Vivian Tu (personal-finance creator)</h2>
+<p class="sub">“Your Rich BFF.” Her source is a viral <b>“Regular vs Rich” dual-self</b> format — two of her on screen at once — which is exactly why the raw twin reproduces two figures. The Image-N look path sidesteps it entirely.</p>
+<span class="tag">Source: TikTok talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill warn">looks 0.69 / 0.64</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/478a718a90f64f999d16299e28ae4690/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/45c206e31ab34422a179448698747e0e/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Raw twin <b>reproduces both figures</b> from the dual-self source — a source-selection finding, not a model fault.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 💰</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/5715b29b47d94e1e9b644b3317d98f31/original.jpg"><div class="cap">Corporate boardroom (ArcFace 0.69).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/7ae76ba016ee40c889639f02f1bac5c6/original.jpg"><div class="cap">Upscale cafe (ArcFace 0.64).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/b65d45d496dd485cae9f5822034950b7/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+<hr class="hr">
+<h2><span class="n">7</span>drmandell — Dr. Alan Mandell (wellness &amp; motivation)</h2>
+<p class="sub">Wellness/mobility educator (260M+ likes). Neutral-backdrop talking-head — a clean twin; the raw arc inherits the source's green caption banner.</p>
+<span class="tag">Source: TikTok talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.81 / 0.70</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/adc3bed2a8c44b09b5593200fc4ed53c/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/7213609dd83f43ae855640fc67625964/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Note: Avatar V cross-references the scene, so the raw arc <b>reproduces the source's burned-in captions</b>.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🧘</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/cdef921b222b473bb71c5142ce71f0ac/original.jpg"><div class="cap">Wellness clinic / polo (ArcFace 0.81).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/339cfc329875411c91b306f207250513/original.jpg"><div class="cap">Warm podcast studio (ArcFace 0.70).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/bd04755baef44d84a587b63179e4c433/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+<hr class="hr">
+<h2><span class="n">8</span>doctoryoun — Dr. Anthony Youn (cosmetic surgeon / skincare)</h2>
+<p class="sub">“America's holistic plastic surgeon.” His clips are reaction-style; we windowed his solo full-frame segment. Twin + looks both clean.</p>
+<span class="tag">Source: TikTok talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.83 / 0.79</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/f9e9f978715e405bb14d762ab53fab7b/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/e799fdf79f50478485bdff562ad61d33/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Note: Avatar V cross-references the scene, so the raw arc <b>reproduces the source's burned-in captions</b>.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 💆</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/b7fe993993854711bccae811b658ab33/original.jpg"><div class="cap">Dermatology clinic / coat (ArcFace 0.83).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/08ebe62918454f2b8a4eca790291ee34/original.jpg"><div class="cap">Skincare studio (ArcFace 0.79).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/3e2bc12585a140559bbd36fe051c57cf/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+<hr class="hr">
+<h2><span class="n">9</span>thebudgetnista — Tiffany Aliche (financial educator)</h2>
+<p class="sub">“The Budgetnista,” bestselling financial educator. Close-up talking-head → clean twin and strong looks.</p>
+<span class="tag">Source: TikTok talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.76 / 0.76</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/6a9f6648024f4c56898c28cb8add3d5a/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/5de837073fe64f048adc2f8c748f93f8/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Note: Avatar V cross-references the scene, so the raw arc <b>reproduces the source's burned-in captions</b>.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 📊</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/d406ffb4d5a7460ebf6bd03300c96a7f/original.jpg"><div class="cap">Home office / blazer (ArcFace 0.76).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/64176597b3ca4e9d988aa69927f24c08/original.jpg"><div class="cap">Podcast studio (ArcFace 0.76).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/95b931ef9cc0434a89e76637f70f87fe/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+<hr class="hr">
+<h2><span class="n">10</span>medexplained2you — medexplained2you (medical educator)</h2>
+<p class="sub">Medical-myth-busting educator. Neutral-backdrop talking-head → the highest-identity looks of the new set (0.86 / 0.86).</p>
+<span class="tag">Source: TikTok talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.86 / 0.86</span>
+<div class="grid g2">
+<div class="card"><h3>① Source + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/5621d43fed664b2db4dace4be7373105/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/67f7e15c33d7460582f04807477e9ccd/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Note: Avatar V cross-references the scene, so the raw arc <b>reproduces the source's burned-in captions</b>.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🩺</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/11872ee087844e6c8ccea408e4df4c21/original.jpg"><div class="cap">Medical scrubs (ArcFace 0.86).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/0151d26d71934effaa7cd3d08ba24bc3/original.jpg"><div class="cap">Podcast / blazer (ArcFace 0.86).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/af964be54972486782ea5ad8156bd3b2/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+
+<hr class="hr">
+
+<h2><span class="n">11</span>Stability &amp; quality matrix</h2>
+<div class="card">
+<table>
+<tr><th>Account</th><th>Lang</th><th>Source</th><th>Twin</th><th>Voice</th><th>Looks ArcFace</th><th>Note</th></tr>
+<tr><td><b>aripa.ong</b><br><span class="cap">legal/rights</span></td><td>RO</td><td><span class="pill good">studio talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.82 / 0.78</td><td>best of the set; clean studio source</td></tr>
+<tr><td><b>steve.mudd</b><br><span class="cap">"Talentless AI"</span></td><td>EN</td><td><span class="pill good">AI-gen, 1 identity</span></td><td>Avatar V ✓</td><td>✓</td><td>0.76 / 0.78</td><td>twin of an AI character; on-brand looks</td></tr>
+<tr><td><b>cameron.tsue</b><br><span class="cap">economics</span></td><td>EN</td><td><span class="pill warn">talking-head + graphics</span></td><td>Avatar V ✓</td><td>✓</td><td>0.78 / 0.81</td><td>twin window re-picked; look-gen collapsed (0.14) then recovered to 0.81 via identity-prompt re-roll</td></tr>
+<tr><td><b>humphreytalks</b><br><span class="cap">personal-finance educator</span></td><td>EN</td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.86 / 0.88</td><td>raw arc reproduces burned-in captions; gen-look caption-free</td></tr><tr><td><b>abbeyskitchen</b><br><span class="cap">registered dietitian</span></td><td>EN</td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.84 / 0.84</td><td>raw arc reproduces burned-in captions; gen-look caption-free</td></tr><tr><td><b>yourrichbff</b><br><span class="cap">personal-finance creator</span></td><td>EN</td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.69 / 0.64</td><td>raw twin reproduces dual-self source (two figures); gen-look clean</td></tr><tr><td><b>drmandell</b><br><span class="cap">wellness &amp; motivation</span></td><td>EN</td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.81 / 0.70</td><td>raw arc reproduces burned-in captions; gen-look caption-free</td></tr><tr><td><b>doctoryoun</b><br><span class="cap">cosmetic surgeon / skincare</span></td><td>EN</td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.83 / 0.79</td><td>raw arc reproduces burned-in captions; gen-look caption-free</td></tr><tr><td><b>thebudgetnista</b><br><span class="cap">financial educator</span></td><td>EN</td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.76 / 0.76</td><td>raw arc reproduces burned-in captions; gen-look caption-free</td></tr><tr><td><b>medexplained</b><br><span class="cap">medical educator</span></td><td>EN</td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.86 / 0.86</td><td>raw arc reproduces burned-in captions; gen-look caption-free</td></tr>
+</table>
+<p class="foot">TikTok ingest via <code>yt-dlp</code> (handles <code>tiktok.com/@user/video/…</code> directly — its user enumerator works where Instagram's is broken). Otherwise byte-for-byte the IG/YouTube pipeline.</p>
+</div>
+
+<h3>What we learned (TikTok)</h3>
+<ul class="tight">
+<li><b>The platform layer is a non-issue.</b> <code>yt-dlp</code> pulls and even enumerates TikTok cleanly; the twin/voice/looks/render stack is identical across YouTube, IG, and TikTok.</li>
+<li><b>Twin window selection is the #1 operational risk.</b> Short-form creators interleave talking-head with graphics, b-roll, and title-cards — the window must be a pure, continuous talking segment or training fails "missing faces." A contact sheet catches this in seconds.</li>
+<li><b>Look-gen identity is prompt-sensitive and recoverable.</b> Across 8 creators it ranged 0.59 → 0.85 after re-rolls. A first pass can collapse (cameron 0.14); an explicit identity clause ("same face, wearing glasses") recovered it to 0.81. The twin succeeding doesn't guarantee the looks — but a targeted re-roll fixes them.</li>
+<li><b>Caption bleed is the headline finding.</b> Raw Avatar V twins reproduce burned-in source captions (and dual-self compositions); the Image-N generated-look path is caption-free and is the recommended deliverable for short-form creators.</li>
+<li><b>Language is handled.</b> Romanian (aripa) and Portuguese (Paulo, IG) cloned + rendered fine via ElevenLabs v3.</li>
+</ul>
+
+<h2><span class="n">12</span>Method</h2>
+<div class="card">
+<p>Per account: <code>yt-dlp</code> pulls the TikTok → pick a clean continuous talking-head window from a contact sheet → extract a native-9:16 twin clip + voice sample → create an Avatar V digital twin via <code>/v2/video_avatar</code> with a pre-cleared R&amp;D consent video bundled → clone the voice → generate two Image-N looks (Seedance, ArcFace-scored) → render a 4-beat emotion arc (ElevenLabs v3) on the real look and a generated look → host + report. Internal HeyGen R&amp;D on the operator's own account.</p>
+<p class="foot">Skill: <code>av-tiktok-twin</code> (adapted from <code>av-emotional-twin</code>). Identity = ArcFace cosine vs a source reference frame.</p>
+</div>
+
+</div></body></html>
