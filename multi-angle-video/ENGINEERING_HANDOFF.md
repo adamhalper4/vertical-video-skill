@@ -1,12 +1,66 @@
-# av-multi-angle-video — Engineering Handoff (V8, 2026-06-15)
+# av-multi-angle-video — Engineering Handoff (V9, 2026-06-17)
 
 One avatar look + a script → a finished talking-head that cuts between camera angles like a
 multi-camera studio shoot. This doc is the **current, authoritative spec** (supersedes the V1–V3
-parts of `SKILL.md`, which predate the profile/cohesion work). Read `SKILL.md` for the original
-one-take model; read THIS for what to actually build.
+parts of `SKILL.md`). Read THIS first; §0–§8 (the V8 core model: one-take/N-cameras/one-edit,
+cohesion-gated orbit, cut grammar, assembler) are still accurate and detailed below.
 
 Iteration history + example videos: https://www.heygenverse.com/a/8c06e498-1077-4aa8-baec-d3dae7b215d0
 
+================================================================================
+# V9 UPDATE (2026-06-17) — all-Avatar-V, full personality, correct side-angle method, tokyo-bot
+
+## V9.1 Engine matrix — what each shot renders on
+| Shot | Engine | How |
+|---|---|---|
+| HOME (`straight_on`) | **Avatar V** (`/v3/videos`, flat body `engine.type=avatar_v`) | frontal look + full personality |
+| close_up | Avatar V (center-crop of HOME, no extra render) | eye-level-aware 1.45× crop |
+| side (`left_45`/`right_45`) | **Avatar V** | side-angle look + side-angle reference (V9.3) |
+
+**Full Avatar V "personality" = 3 levers (all on the same render call):**
+- `engine.reference_look_id` — reference footage (delivery/motion + gaze). MUST be an **`instant_avatar`** look in the **SAME group** as `avatar_id` (server 400s a `studio_avatar`, a photo look, or a cross-group id). `mv.reference_look_for(tone, group, key)` resolves one.
+- `motion_prompt` (top-level) — custom motion (gesture/posture/gaze; NOT camera/scene).
+- eleven_v3 voice tags — `voice_settings.engine_settings`+`stability:0.5`; inline `[emotion]` fires as prosody.
+- Public MCP `create_video_from_avatar` does motion + v3 tags in one call.
+
+## V9.2 ⭐ The side-angle method (the corrected, working recipe)
+**Avatar V renders the `avatar_id` look's framing** (it's a talk-to-camera engine; the reference only
+drives delivery/gaze, NOT camera position). Therefore a left/right shot needs **BOTH inputs side-angle**:
+- `avatar_id` = a **side-angle PHOTO look** (the appearance/framing IS the side camera), AND
+- `engine.reference_look_id` (public) / `avatar_settings.cross_ref_avatar_id` (Shots) = a **side-angle VIDEO reference** where the subject's **eyes face forward, off the lens** (this is what kills eye contact).
+
+Failure modes proven out:
+- Frontal photo look + side reference → stays **frontal** (only gaze nudges). ❌
+- Side **studio** look on Avatar V → 3/4 but **camera-facing** (studio avatars always address the lens); also can't be a `reference_look_id` (studio rejected). ❌
+- Side photo look + side reference, both side-angle → **genuine side camera, eyes forward, Avatar V quality.** ✅
+  Validated: https://app.heygen.com/videos/8bb9162d020b4c3182cde0e80eb78cb3
+
+**Headless vs session:** the public `/v3/videos` accepts `avatar_id`=photo look + `engine.reference_look_id`=instant_avatar (same group) with **X-Api-Key** (verified) — so the side render runs on the worker, no session needed. The api2 Shots 2-call path (`text_to_speech.generate` → `/v2/avatar/shortcut/submit` with `avatar_settings.cross_ref_avatar_id`, `model:"tokyo_v2_2"`) is the session-auth alternative.
+
+## V9.3 Producing the two side assets
+- **Side PHOTO look (`avatar_id`) — automatable.** Orbit the HOME render → cohesion/identity/artifact gate (§3) with re-roll → a turned 3/4 still in the home's setting → upload as a `photo_avatar` look (`/v2/photo_avatar/avatar_group/add`, X-Api-Key). Orbit is **stochastic** — keep the re-roll budget (a roll can come back frontal). The gate needs insightface+numpy (present on the worker, not a plain local box).
+- **Side VIDEO reference (`reference_look_id`/`cross_ref`) — one-time per-identity, manual.** Train a real **3/4 off-gaze clip** (eyes forward to someone beside the lens, NOT at it; **must have audio + frontal-enough faces**) as a sibling `instant_avatar` look via `POST api2 /v1/instant_avatar/video.submit` (**session cookies**, not X-Api-Key; `reuse_consent:true`, `gender:male|female|unknown`). ~5-min train, **paid PHOTO_AVATAR_ADD_MOTION**.
+  - Gotchas: silent clip → `Missing voices` (mux speech); pure profile → `Missing faces` (use 3/4, not full profile); generated/Seedance profiles often fail the face check — **use real footage**.
+  - This step is NOT headless-automatable (session + real footage) → it's a per-identity setup, stored as `identity → side_reference_look_id`.
+
+## V9.4 Frame-alignment (multi-cam cut)
+HOME and SIDE must share ONE master audio so cuts are seamless. Generate the TTS **once**, then drive
+BOTH renders off that same `audio_data` (Shots `audio_type:"tts"` with the same `audio_url`+`words`), or
+use the audio-input path. Never stitch audio fragments.
+
+## V9.5 tokyo-bot integration (shipped)
+- Command: `@tokyo-bot make multiangle video <group_or_look_id> [16:9|9:16|landscape|portrait] | <script>` (or `auto`). A look id resolves to its group via `/v2/photo_avatar/{id}`.
+- Files (bot repo `~/tokyo-bot`): `video_skills/multiangle.py` (orchestration), `multiangle_orbit.py` (V8 gate), `multiangle_cut/` (cut grammar), `mv_jobs.py` (queue).
+- **Voice = the avatar's OWN voice** (look `default_voice_id` → group default → Adam_2025 only for a twin). Never a stranger's face + Adam's voice.
+- **Server-key fallback:** if the requested avatar isn't on the user's connected key, render on the server account (enables shared/public avatars).
+- **Queue + worker (deploy-race fix):** `RENDER_QUEUE=1` → bot enqueues to the `tokyo_jobs` Google-Sheet queue; separate **`tokyo-worker`** Railway service (same image, `RENDER_WORKER_MODE=1`, no Slack socket) drains it → renders survive bot redeploys. Concurrency-capped; re-claims orphaned jobs. `mv_jobs.py` + `slack_bot.py:_run_render_worker`.
+
+## V9.6 Known bugs / TODO
+- **Minimal/calm pace collapses to 1 cut** on short (~20s) clips — add a min-cuts floor.
+- Side render currently shipping = V8 Seedance-orbit → Avatar IV; the V9.2 all-Avatar-V side is being wired in (needs per-identity side-reference look from V9.3).
+- Clean up failed `instant_avatar` training looks (`Missing voices/faces`) left in the group.
+
+================================================================================
 --------------------------------------------------------------------------------
 ## 0. The core model — one take, N cameras, one edit
 A real multi-cam shoot records ONE vocal performance with several cameras rolling, then the editor
@@ -113,6 +167,10 @@ Cut-sheet schema (the contract the assembler consumes), contiguous + gap-free:
   the side clip; (`left_45` slot unused in the current 1-side pipeline — pass home as a placeholder).
 - Cuts segments per the sheet, concats, muxes the ONE master audio (`-c:a aac -shortest`).
 - Pick the assembler that matches the look's orientation (§1 orientation rule).
+- **Eye-level close-up (don't blind-center the punch-in).** The `close_up` crop is positioned from
+  the subject's detected nose-x / eye-y (insightface kps on a HOME frame) so the eyes stay at the
+  SAME screen height through the `HOME→ZOOM` cut — a blind center crop drops the eyeline and the eyes
+  visibly jump on the cut. Fallback when no face: (0.5, 0.42) = centered, eyes on the upper third.
 
 --------------------------------------------------------------------------------
 ## 6. Dependencies / external calls
