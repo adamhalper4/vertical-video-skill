@@ -1,0 +1,29 @@
+{
+  "645f0b44561d4e8b8a03cf53d9f749fc": {
+    "look_id": "645f0b44561d4e8b8a03cf53d9f749fc",
+    "angles": {
+      "straight_on": {
+        "avatar_id": "c316c88b2fb245aea3bb7737dacc7640",
+        "frame_path": "outputs/imagen_angles/frames/straight_on.jpg",
+        "arcface": 0.9681
+      },
+      "close_up": {
+        "avatar_id": "5f574556053f4aeca11799ec91a17344",
+        "frame_path": "outputs/imagen_angles/frames/close_up.jpg",
+        "arcface": 0.931
+      },
+      "left_45": {
+        "avatar_id": "b34a80c347d741f0860161a9b3eb543a",
+        "frame_path": "outputs/imagen_angles/frames/left_45_v2.jpg",
+        "arcface": 0.8755
+      },
+      "right_45": {
+        "avatar_id": "042874bb612945d69e84960a87883671",
+        "frame_path": "outputs/imagen_angles/frames/right_45_v2.jpg",
+        "arcface": 0.8039
+      }
+    },
+    "group_id": "f1c500db5d1546389b284f098d4e51ff",
+    "voice_id": "a8452146053043668c9ab1ba5a27650b"
+  }
+}

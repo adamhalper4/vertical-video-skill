@@ -1,0 +1,8 @@
+{
+  "checked_at": "2026-06-08T17:24:22.279362+00:00",
+  "avatar_id": "645f0b44561d4e8b8a03cf53d9f749fc",
+  "surface": "rest_v2_generate",
+  "engine": "avatar_v",
+  "audio_input_ok": false,
+  "error": "HTTPStatusError(\"Client error '401 UNAUTHORIZED' for url 'https://api.heygen.com/v2/video/generate'\\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401\")"
+}
