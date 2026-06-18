@@ -1,0 +1,237 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Existing Footage → Avatar — Instagram</title>
+<style>
+:root{--bg:#f6f4fb;--card:#fff;--ink:#16131f;--muted:#6b6577;--line:#e7e2f0;--accent:#6d28d9;--accent2:#a78bfa;--good:#0f9d58;--warn:#d98300;--bad:#d23f3f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:44px 22px 90px}
+h1{font-size:40px;line-height:1.1;margin:0 0 6px;letter-spacing:-.02em}
+h2{font-size:26px;margin:54px 0 14px;letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
+h2 .n{display:inline-flex;width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;font-size:15px;align-items:center;justify-content:center;flex:none}
+h3{font-size:18px;margin:26px 0 10px}
+.sub{color:var(--muted);font-size:18px;margin:0 0 4px}
+.kicker{text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--accent);font-weight:700;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:18px 0;box-shadow:0 1px 3px rgba(20,10,40,.04)}
+.hr{height:1px;background:var(--line);border:0;margin:46px 0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}}
+video,img.shot{width:100%;border-radius:12px;display:block;background:#000;border:1px solid var(--line)}
+.cap{font-size:13px;color:var(--muted);margin-top:7px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#faf8ff;color:var(--accent);margin:0 6px 6px 0}
+.metric{display:inline-flex;align-items:baseline;gap:6px;font-weight:700}
+.pill{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.pill.good{background:#e7f6ee;color:var(--good)}.pill.warn{background:#fdf1df;color:var(--warn)}.pill.bad{background:#fbe9e9;color:var(--bad)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.lead{font-size:18px;color:#2c2640}
+.callout{border-left:3px solid var(--accent);background:#faf8ff;padding:14px 18px;border-radius:0 12px 12px 0;margin:16px 0}
+.big{font-size:30px;font-weight:800;letter-spacing:-.01em}
+ul.tight{margin:8px 0 0;padding-left:20px}ul.tight li{margin:5px 0}
+.foot{color:var(--muted);font-size:13px;margin-top:8px}
+code{background:#efeaf8;padding:1px 6px;border-radius:5px;font-size:13px}
+</style></head><body><div class="wrap">
+
+<div class="kicker">HeyGen · Avatar R&amp;D · Existing-Footage Pipeline</div>
+<h1>Existing Footage → Avatar — Instagram</h1>
+<p class="sub">Turning a creator's public Instagram Reels into a working HeyGen avatar — identity-locked Avatar&nbsp;V digital twin, cloned voice, Image-N looks, and an emotion-routed demo arc. Same pipeline as the YouTube edition, pointed at <code>instagram.com</code>.</p>
+<p class="foot">Eval run · 2026-06-16 · 7 IG accounts — full demos. &nbsp;<b>Series:</b> <a href="https://www.heygenverse.com/a/11b1ef0b-b85c-4c9f-a5d6-dce9a17be7fc">YouTube → Avatar</a> &nbsp;·&nbsp; Instagram (this) &nbsp;·&nbsp; <a href="https://www.heygenverse.com/a/9b2617cf-3ad8-44be-ad38-b5cd99a205de">TikTok → Avatar</a>.</p>
+
+<div class="card">
+<div class="kicker">TL;DR — what the eval shows</div>
+<p class="lead">The pipeline runs end-to-end on Instagram with zero code changes beyond the source step — <b>download → twin → voice → looks → render → report all succeeded on every account.</b> The variable that decides quality is <b>the source footage</b>, not the platform.</p>
+<div class="grid g3" style="margin-top:14px">
+<div><div class="big" style="color:var(--good)">0.85</div><div class="cap">ArcFace identity on a <b>clean talking-head</b> source (David Sammel looks)</div></div>
+<div><div class="big" style="color:var(--warn)">v1→v2</div><div class="cap">Ryan flipped from <b>unusable to usable</b> just by swapping a car-skit clip for a stage-panel talking-head — same creator, same code</div></div>
+<div><div class="big" style="color:var(--accent)">100%</div><div class="cap">twin-train + voice-clone + render success across accounts</div></div>
+</div>
+<div class="callout" style="margin-top:18px"><b>Two gotchas that matter for social video.</b> (1) <b>Pick the right A-roll.</b> A creator's top Reels are often skits — search deeper for a forward-facing talking-head, exactly like the YouTube harvest (Ryan was unusable until we did). (2) <b>Captions bleed in.</b> Avatar&nbsp;V is cross-reference-driven, so it reproduces the source scene including burned-in captions; short-form is almost always captioned, so the <b>caption-free Image-N looks are the recommended deliverable.</b></div>
+</div>
+
+<hr class="hr">
+
+<h2><span class="n">1</span>David Sammel — clean source → broadcast-ready twin</h2>
+<p class="sub">Tennis coach (35 yrs, ATP/Olympians), 9.2K followers. Source Reel: a continuous, forward-facing, single-speaker talking-head. The ideal input.</p>
+<span class="tag">Source: clean talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">ArcFace 0.85</span>
+
+<div class="grid g2">
+<div class="card"><h3>① Source Reel (the input)</h3>
+<video controls preload="metadata" poster="" src="https://resource2.heygen.ai/video/5310af9fa14a4402af904fe006347324/original.mp4"></video>
+<div class="cap">His real IG Reel — clean medium shot, foliage backdrop, captions burned in (typical of social content).</div></div>
+<div class="card"><h3>② Twin on his real look — emotion arc</h3>
+<video controls preload="metadata" src="https://resource2.heygen.ai/video/d05f6af55b3549faafccdc9fb460f30a/original.mp4"></video>
+<div class="cap">excited → serious → empathetic → emphatic, cloned voice + per-beat motion. Excellent identity &amp; lip-sync — note the source caption bleeds through (cross-reference artifact).</div></div>
+</div>
+
+<div class="card"><h3>③ Image-N looks (generated, caption-free) — ArcFace 0.81 / 0.89</h3>
+<div class="grid g2">
+<div><img class="shot" src="https://resource2.heygen.ai/image/e13145be75ff46dbb23a6cceac4ab81a/original.jpg"><div class="cap">Courtside coach — navy quarter-zip + clipboard. ArcFace 0.81.</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/13b833ba1a1a48fbabdd670edd417fb5/original.jpg"><div class="cap">Studio — charcoal blazer over tee. ArcFace 0.89.</div></div>
+</div></div>
+
+<div class="card" style="border-color:var(--accent2)"><h3>④ Generated-look arc — the hero output 🎾</h3>
+<div class="grid g2" style="align-items:start">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/a6e106b5d5f94ef2aefc3a6900ecc31c/original.mp4"></video></div>
+<div><p>The courtside look, animated on Avatar&nbsp;V with the cloned voice across the same 4-beat arc. <b>Forward-facing, on-brand, and completely caption-free</b> — the polished spokesperson video the raw twin can't be, because his Reel had burned-in text.</p>
+<p class="cap">This is the recommended deliverable when the source is social footage: generate a clean look, then render on it.</p></div>
+</div></div>
+
+<hr class="hr">
+
+<h2><span class="n">2</span>Ryan Serhant — input selection is everything</h2>
+<p class="sub">Real-estate mogul, 3.2M followers. His top/pinned Reels are produced comedy skits, so the first pass grabbed the "least-bad" clip — a 77s skit of him <em>looking down at his phone in a car</em>. The result was unusable. So we did what the YouTube pipeline does: <b>searched deeper into his catalog and found a real talking-head</b> — a stage-panel interview — and rebuilt the twin from that. Same creator, same code, totally different output.</p>
+<span class="tag">Voice clone ✓ (his own voice)</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">v1 car-skit → v2 stage-panel</span>
+
+<div class="card" style="border-color:var(--accent2)"><h3>① The fix: bad clip vs good clip (real-look twin, same script &amp; voice)</h3>
+<div class="grid g2" style="align-items:start">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/1bfa60cab80740e58e0c2b82de348231/original.mp4"></video>
+<div class="cap"><b>v1 — from the car skit.</b> Inherits the car, the down-angle pose, eyes-down frames, and burned-in captions. Not usable.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/93ea63c2fdf544b5bf4d904a5eff857a/original.mp4"></video>
+<div class="cap"><b>v2 — from the stage-panel talking-head.</b> Forward-facing, engaged, expressive — a usable spokesperson. Only the source's bottom subtitle still bleeds through.</div></div>
+</div>
+<p class="cap" style="margin-top:10px"><b>This is the whole point:</b> Ryan didn't get better — the input did. The car clip was a bad pick; a 60-second deeper search surfaced a forward-facing interview that the pipeline handles well.</p></div>
+
+<div class="grid g2">
+<div class="card"><h3>② The two source clips</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/7d6c7f18f6624ec6a26516a0bf3be6e2/original.mp4"></video><div class="cap">v1: car phone-skit (rejected).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/4d7465aa5fec4248bb4e1921cc2764a1/original.mp4"></video><div class="cap">v2: stage-panel talking-head (used).</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks (from the panel twin, clean-shaven, caption-free)</h3>
+<div class="grid g2">
+<div><img class="shot" src="https://resource2.heygen.ai/image/58724addc68340629d22d2d5f48572aa/original.jpg"><div class="cap">High-rise office, charcoal suit.</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/82242d305ec145a2bfa14fab32d43171/original.jpg"><div class="cap">Rooftop, golden hour.</div></div>
+</div></div>
+</div>
+
+<div class="card" style="border-color:var(--accent2)"><h3>④ Generated-look arc — caption-free spokesperson 🏙️</h3>
+<div class="grid g2" style="align-items:start">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/a777d31928da46b3a1d868aeaf1bf867/original.mp4"></video></div>
+<div><p>Generated from the <b>panel twin</b> and animated across the 4-beat real-estate arc in his cloned voice — <b>charcoal suit, Manhattan high-rise, forward-facing, caption-free.</b> Ryan's entire demo (twin → real-look arc → this look) now derives from the improved panel footage.</p>
+<p class="cap"><b>Honest caveat on looks:</b> Ryan's Image-N identity stays mediocre (ArcFace ~0.43–0.54) regardless of source — he's a hard look-lock case. Note the twin and the looks want different references: the <b>twin</b> needs a forward-facing talking-head (panel wins), while <b>look generation</b> wants a large, clean, frontal face crop. Engine note: rendered via photo-to-video (Avatar IV) — HeyGen's talking-photo step rejected the generated frames with "missing image dimensions."</p></div>
+</div></div>
+
+<hr class="hr">
+
+<h2><span class="n">3</span>hypno_hrt — clean (AI-generated) source → flawless twin</h2>
+<p class="sub">Menopause/wellness niche, 116 followers. Every Reel is already a pristine, forward-facing talking-head — they appear to be <b>AI-generated avatars</b> themselves, which makes this a perfect clean-input control case.</p>
+<span class="tag">Source: clean (AI-gen) talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.74 / 0.65</span>
+<div class="grid g2">
+<div class="card"><h3>① Source Reel + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/596dc9c602524e08a8c7d8ad06ee3cb0/original.mp4"></video><div class="cap">Source Reel.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/f11bbc01326e4c689beccebd9cf66d65/original.mp4"></video><div class="cap">4-beat arc, cloned voice.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🌿</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/08b05d20d936444d8e36f31ca547c881/original.jpg"><div class="cap">Wellness studio.</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/20d06dd0c1e0438eaf88adb7f18e7337/original.jpg"><div class="cap">Cozy home.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/826adca3c93940fbba8ce96f6557cb01/original.mp4"></video><div class="cap">Generated-look, caption-free.</div></div>
+</div></div>
+</div>
+
+<hr class="hr">
+
+<h2><span class="n">4</span>priyank.happycorn — founder, medium-shot source</h2>
+<p class="sub">Founder of a beverage brand, 118 followers. Best talking-head was a seated interview (medium shot). Twin + real-look arc are solid; like Ryan, the looks drift because a medium-shot reference doesn't anchor the face tightly.</p>
+<span class="tag">Source: seated interview</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill warn">looks 0.40 / 0.42</span>
+<div class="grid g2">
+<div class="card"><h3>① Source Reel + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/9361d397936444709597d64810745536/original.mp4"></video><div class="cap">Source Reel.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/4fc90b9efcb0423da3cdce3f69c3bbdc/original.mp4"></video><div class="cap">4-beat arc — identity good, forward-facing.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🚀</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/184b647962334d268782f1d5c62ad76e/original.jpg"><div class="cap">Startup office.</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/b4428270d5eb4ab0bdf488c1a96eb894/original.jpg"><div class="cap">Rooftop cafe.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/ff91a29ad41b43a99c4383b0b5d465d5/original.mp4"></video><div class="cap">Generated-look (identity drifts — medium-shot ref).</div></div>
+</div></div>
+</div>
+
+<hr class="hr">
+
+<h2><span class="n">5</span>Paulo Oliveira — close-up source → best looks of the set</h2>
+<p class="sub">Brazilian accountant in the US, 2.5K followers (content in Portuguese). His top reels were event/lifestyle, so we searched deeper and found a tight close-up talking-head — which anchored the <b>strongest look identity in the whole eval (ArcFace 0.77).</b> Demo is in his cloned Portuguese voice.</p>
+<span class="tag">Source: close-up talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓ (PT)</span><span class="pill good">looks 0.77 / 0.77</span>
+<div class="grid g2">
+<div class="card"><h3>① Source Reel + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/7d06242b40ee4e7cbde72eb2b75b6d5d/original.mp4"></video><div class="cap">Source Reel (close-up).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/93b24984536d4b0e89cc9e139b081ccd/original.mp4"></video><div class="cap">4-beat arc, cloned PT voice.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🇧🇷🇺🇸</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/91081e17638b4011aeaa264e637da017/original.jpg"><div class="cap">Accounting office, flags.</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/275cce96500e47808ba8a0d141399ef7/original.jpg"><div class="cap">Podcast set.</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/d006798feac742589205fbf7a01339ea/original.mp4"></video><div class="cap">Generated-look, caption-free, on-brand.</div></div>
+</div></div>
+</div>
+
+
+<hr class="hr">
+<h2><span class="n">6</span>hyram — skincare educator</h2>
+<p class="sub">One of the biggest skincare voices on social (kitchen talking-head, burned-in captions). A clean, forward-facing source → the strongest looks of the new IG pair.</p>
+<span class="tag">Source: talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.88 / 0.86</span>
+<div class="grid g2">
+<div class="card"><h3>① Source Reel + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/b2ab18df5ae8422ea120326c36df2ce4/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/c66a3f2325e944408706dde9348b0410/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Note: Avatar V cross-references the scene, so the raw arc <b>reproduces the source's burned-in captions</b> — the caption-free Image-N look is the clean deliverable.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🧴</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/6188c58e970145cb9ed63b83c873d275/original.jpg"><div class="cap">Content studio / blue shirt (ArcFace 0.88).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/843c0e818d144791b2921bf0038d0cb7/original.jpg"><div class="cap">Skincare studio / grey tee (ArcFace 0.86).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/5f1bd5b402794007bda1728e28ebaea2/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+<hr class="hr">
+<h2><span class="n">7</span>garyvee — entrepreneur</h2>
+<p class="sub">Gary Vaynerchuk. His feed is mostly produced interviews and compilations; we searched deeper and found a clean solo talking-head segment (black tee + cap, plant backdrop) to twin from — the same deeper-search lesson as Ryan.</p>
+<span class="tag">Source: talking-head</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill warn">looks 0.77 / 0.65</span>
+<div class="grid g2">
+<div class="card"><h3>① Source Reel + ② real-look arc</h3>
+<div class="grid g2">
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/6d678e97e2fd4b4ea8d38a7d8fa12041/original.mp4"></video><div class="cap">Source window (clean talking-head).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/4465d50408dd4ec5a85c374a817ead21/original.mp4"></video><div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice. Note: Avatar V cross-references the scene, so the raw arc <b>reproduces the source's burned-in captions</b> — the caption-free Image-N look is the clean deliverable.</div></div>
+</div></div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🚀</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/518043a602704d289f80422cadb05069/original.jpg"><div class="cap">Startup office / quarter-zip (ArcFace 0.77).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/94d71347817148bc8cdccbbfec07eda9/original.jpg"><div class="cap">Keynote stage (ArcFace 0.65).</div></div>
+<div><video controls preload="metadata" src="https://resource2.heygen.ai/video/49a96b7784e1405ab41c9499f3292b44/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+</div>
+
+<hr class="hr">
+
+<h2><span class="n">8</span>Stability &amp; quality matrix</h2>
+<div class="card">
+<table>
+<tr><th>Account</th><th>Source quality</th><th>Twin</th><th>Voice</th><th>Looks ArcFace</th><th>Real-look render</th><th>Headline issue</th></tr>
+<tr><td><b>David Sammel</b><br><span class="cap">tennis coach</span></td><td><span class="pill good">clean talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.81 / 0.89</td><td>excellent</td><td>source captions bleed through (fixed by looks)</td></tr>
+<tr><td><b>Ryan Serhant</b><br><span class="cap">real estate</span></td><td><span class="pill warn">skit</span> → <span class="pill good">stage panel</span></td><td>Avatar V ✓</td><td>✓</td><td>~0.45–0.54</td><td>v1 car: unusable → v2 panel: usable, forward-facing</td><td>top Reels are skits; deeper search found a talking-head. Look-identity stays a weak spot</td></tr>
+<tr><td><b>hypno_hrt</b><br><span class="cap">wellness</span></td><td><span class="pill good">clean (AI-gen)</span></td><td>Avatar V ✓</td><td>✓</td><td>0.74 / 0.65</td><td>flawless</td><td>source is itself an AI avatar — ideal clean control</td></tr>
+<tr><td><b>priyank.happycorn</b><br><span class="cap">founder</span></td><td><span class="pill warn">medium-shot interview</span></td><td>Avatar V ✓</td><td>✓</td><td>0.40 / 0.42</td><td>good, forward-facing</td><td>medium-shot ref → looks drift (same as Ryan)</td></tr>
+<tr><td><b>Paulo Oliveira</b><br><span class="cap">accountant · PT</span></td><td><span class="pill good">close-up talking-head</span></td><td>Avatar V ✓</td><td>✓ (PT)</td><td>0.77 / 0.77</td><td>excellent</td><td>close-up ref → best look identity in the eval</td></tr>
+<tr><td><b>hyram</b><br><span class="cap">skincare educator</span></td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.88 / 0.86</td><td>clean</td><td>raw arc reproduces burned-in captions; gen-look caption-free</td></tr><tr><td><b>garyvee</b><br><span class="cap">entrepreneur</span></td><td><span class="pill good">talking-head</span></td><td>Avatar V ✓</td><td>✓</td><td>0.77 / 0.65</td><td>clean</td><td>raw arc reproduces burned-in captions; gen-look caption-free</td></tr>
+</table>
+<p class="foot">7 IG accounts complete (David, Ryan, hypno_hrt, priyank, Paulo, hyram, garyvee). Companion <a href="https://www.heygenverse.com/a/9b2617cf-3ad8-44be-ad38-b5cd99a205de">TikTok edition</a> covers 10 creators.</p>
+</div>
+
+<h3>What we learned</h3>
+<ul class="tight">
+<li><b>Platform is not the variable — source footage is.</b> The IG pipeline is byte-for-byte the YouTube one past the download step; every account trained + cloned + rendered successfully.</li>
+<li><b>Burned-in captions are the #1 social-footage artifact.</b> Avatar V animates the actual footage, so caption text rides into the real-look twin. Generated Image-N looks are caption-free and side-step it entirely.</li>
+<li><b>Identity fidelity scales with the reference.</b> A clean, forward, well-lit face → ArcFace ~0.85. A down-angle phone-skit → ~0.51. Same code, very different output.</li>
+<li><b>Finding the window is the human-in-the-loop step.</b> Big creators (Ryan, 3.2M) can be <em>harder</em> than niche ones (David, 9K) because their content is over-produced. Worth pre-screening profiles for at least one clean talking-head Reel.</li>
+</ul>
+
+<h2><span class="n">9</span>Method</h2>
+<div class="card">
+<p>Per account: <code>yt-dlp</code> pulls the Reel → pick a clean continuous window from a contact sheet → extract a native-9:16 twin clip + voice sample → upload + create an Avatar&nbsp;V digital twin via <code>/v2/video_avatar</code> with a pre-cleared R&amp;D consent video bundled → clone the voice → generate two Image-N looks (Seedance, identity-scored with ArcFace) → render a 4-beat emotion arc (ElevenLabs v3, per-beat motion prompts) on both the real look and a generated look → host + report. Renders are internal HeyGen R&amp;D on the operator's own account.</p>
+<p class="foot">Skills: <code>av-instagram-twin</code> / <code>av-tiktok-twin</code> (adapted from <code>av-emotional-twin</code>). Identity = ArcFace cosine vs a source reference frame; never a VLM judge.</p>
+</div>
+
+</div></body></html>
