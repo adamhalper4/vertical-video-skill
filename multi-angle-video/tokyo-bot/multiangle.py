@@ -52,6 +52,14 @@ DOC_MOTION = ("Fixed locked-off side camera, observational documentary. The subj
               "and body in the same near-profile orientation facing forward for the entire clip — do "
               "not rotate toward the camera, no re-centering. Only natural small movements while speaking.")
 
+# Avatar V re-centers a profile toward the lens unless the motion prompt is explicit about gaze.
+# This strong eyes-forward prompt + the side reference_look_id holds the look-away on /v3/videos
+# (headless, verified) — no session cross_ref needed. Used for the Avatar V side render.
+SIDE_MOTION = ("The person stays in a three-quarter side profile, talking to someone seated to their "
+               "side; they look FORWARD toward that person and NEVER turn toward or look at this camera; "
+               "the head stays turned away and the eyes stay off this lens for the entire clip. "
+               "Only natural small movements while speaking — do not rotate to face the camera.")
+
 # Avatar V "full personality" for the HOME/close-up shot: a delivery tone (→ reference-footage
 # look via mv.reference_look_for) + a natural-presenter motion prompt. eleven_v3 voice tags are
 # on by default in render_avatar_v.
@@ -65,6 +73,18 @@ HOME_MOTION = ("Engaged, natural presenter delivery to camera — relaxed uprigh
 # already carries the side framing; the reference just firms up the gaze. Eng extends this map.
 SIDE_REFERENCE = {
     "f1c500db5d1546389b284f098d4e51ff": "8d92ce67719b4f24a0a922238f8171c5",  # Adam (ahalps) twin
+}
+
+# Pre-vetted, PERSISTED side-angle photo look per HOME look — when present, the pipeline skips
+# the stochastic Seedance orbit + frame-gate entirely (the side no longer depends on a fresh
+# orbit clearing the gate every render). Key = the HOME look_id, because the side must match THAT
+# look's exact setting/outfit/lighting (a different home look needs its own side look). The value
+# is a side-angle (~75°, eyes-forward) photo_avatar in the SAME group, renderable on Avatar V.
+# How to add one: render the home look, orbit once, pick a gated side frame → register it as a
+# photo_avatar (lookgen_gen.create_look_avatar), verify by eye, then map home_look_id -> side_look_id
+# here. Eng extends this map per persona. Falls back to a fresh orbit if the saved render fails.
+SIDE_LOOK = {
+    "b566f1d0c57942bab012514843ff48ac": "df7bd41b1fd146db99bf3a7053e6c589",  # AdamH ImageN — landscape Exec Office
 }
 
 SIDE_CONTEXT = ("8 seconds. Fly-on-the-wall observational documentary. The SAME person seated in the "
@@ -622,44 +642,62 @@ def _render(client, meta, user):
                                     "-of", "csv=p=0", str(home_mp4)], capture_output=True, text=True).stdout or 0)
         audio_url = perslib.upload_audio_asset(audio_mp3.read_bytes(), key)
 
-        post(":busts_in_silhouette: Generating the held side-profile camera…")
-        # ARK's reference-video asset must be 1.8–15.2s; the full home render is usually longer.
-        # Trim a representative ~12s window (skip the first beat) and re-host it at an
-        # ARK-fetchable HeyGen URL to seed the orbit. (Identity only — audio dropped.)
-        home_ref = work / "home_ref.mp4"
-        ref_start = min(2.0, max(0.0, dur - 12.0))
-        _ff(["-ss", f"{ref_start:.2f}", "-i", str(home_mp4), "-t", "12", "-an",
-             "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
-             str(home_ref)])
-        ref_url = perslib._upload_video_asset(str(home_ref), key) or home_url
-        # orbit the HOME render → held side profile, then GATE every candidate frame on
-        # Gemini (turn/gaze/artifacts) + ArcFace identity + Gemini cohesion, with ≤1 re-roll
-        # (V8 "Recommended step 1" — this is what kills wrong-looking / off-identity side angles).
-        # Best-effort side angle: gate it (≤1 re-roll). If it never clears — or the side render
-        # fails — DON'T abort: drop the side and make the video with home + close-ups only.
         side_mp4 = None
-        frame, gmeta = mo.pick_side_frame(home_mp4, ref_url, SIDE_CONTEXT, ar, str(work / "orbit"))
-        if frame:
-            post(f":white_check_mark: Side frame cleared the gate — profile {gmeta['turn_deg']}°, "
-                 f"identity {gmeta['arcface']}, room-overlap {gmeta['overlap']} (attempt {gmeta['attempt'] + 1}).")
-            sv = None
-            if home_eng == "v":
-                # REAL HUMAN AVATAR (rendered on Avatar V) → the side is Avatar V too: the gated
-                # side-profile still is the side-angle PHOTO look (avatar_id); an optional same-group
-                # off-gaze video look is the side-angle REFERENCE (drives forward gaze). Driven by the
-                # master audio for frame-aligned cuts. [feedback_multiangle_always_avatar_v]
-                side_look = lookgen_gen.create_look_avatar(frame, gid, "multiangle side-angle", key)
-                side_ref = SIDE_REFERENCE.get(gid)
-                sv = render_side_avatar_v(side_look, audio_url, key, orientation=orientation,
-                                          reference_look_id=side_ref, motion_prompt=DOC_MOTION) if side_look else None
-            else:
-                # Photo-only group (no video look) → Avatar V unavailable; fall back to Avatar IV.
-                side_look = _upload_talking_photo(frame, key)
-                sv = render_audio_input(side_look, audio_url, key, orientation=orientation,
-                                        motion_prompt=DOC_MOTION) if side_look else None
+        gmeta = {}
+        # FAST PATH — a pre-vetted, persisted side-angle look for THIS home look skips the
+        # stochastic orbit + gate entirely (no fresh Seedance orbit each render). Still Avatar V +
+        # eyes-forward SIDE_MOTION + the side video reference, driven by the master audio so cuts
+        # stay frame-aligned. Only for Avatar-V (real-human) homes. [project_multi_angle_side_angle_methods]
+        pre_side = SIDE_LOOK.get(look_id) if home_eng == "v" else None
+        if pre_side:
+            post(":busts_in_silhouette: Using the saved side-angle look (skipping the orbit)…")
+            side_ref = SIDE_REFERENCE.get(gid)
+            sv = render_side_avatar_v(pre_side, audio_url, key, orientation=orientation,
+                                      reference_look_id=side_ref, motion_prompt=SIDE_MOTION)
             side_url = mv.poll_video(sv, key) if sv else None
             if side_url:
                 side_mp4 = str(_download(side_url, work / "side.mp4"))
+            else:
+                post(":warning: Saved side look didn't render — falling back to a fresh orbit.")
+
+        if side_mp4 is None:
+            post(":busts_in_silhouette: Generating the held side-profile camera…")
+            # ARK's reference-video asset must be 1.8–15.2s; the full home render is usually longer.
+            # Trim a representative ~12s window (skip the first beat) and re-host it at an
+            # ARK-fetchable HeyGen URL to seed the orbit. (Identity only — audio dropped.)
+            home_ref = work / "home_ref.mp4"
+            ref_start = min(2.0, max(0.0, dur - 12.0))
+            _ff(["-ss", f"{ref_start:.2f}", "-i", str(home_mp4), "-t", "12", "-an",
+                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
+                 str(home_ref)])
+            ref_url = perslib._upload_video_asset(str(home_ref), key) or home_url
+            # orbit the HOME render → held side profile, then GATE every candidate frame on
+            # Gemini (turn/gaze/artifacts) + ArcFace identity + Gemini cohesion, with ≤1 re-roll
+            # (V8 "Recommended step 1" — this is what kills wrong-looking / off-identity side angles).
+            # Best-effort side angle: gate it (≤1 re-roll). If it never clears — or the side render
+            # fails — DON'T abort: drop the side and make the video with home + close-ups only.
+            frame, gmeta = mo.pick_side_frame(home_mp4, ref_url, SIDE_CONTEXT, ar, str(work / "orbit"))
+            if frame:
+                post(f":white_check_mark: Side frame cleared the gate — profile {gmeta['turn_deg']}°, "
+                     f"identity {gmeta['arcface']}, room-overlap {gmeta['overlap']} (attempt {gmeta['attempt'] + 1}).")
+                sv = None
+                if home_eng == "v":
+                    # REAL HUMAN AVATAR (rendered on Avatar V) → the side is Avatar V too: the gated
+                    # side-profile still is the side-angle PHOTO look (avatar_id); an optional same-group
+                    # off-gaze video look is the side-angle REFERENCE (drives forward gaze). Driven by the
+                    # master audio for frame-aligned cuts. [feedback_multiangle_always_avatar_v]
+                    side_look = lookgen_gen.create_look_avatar(frame, gid, "multiangle side-angle", key)
+                    side_ref = SIDE_REFERENCE.get(gid)
+                    sv = render_side_avatar_v(side_look, audio_url, key, orientation=orientation,
+                                              reference_look_id=side_ref, motion_prompt=SIDE_MOTION) if side_look else None
+                else:
+                    # Photo-only group (no video look) → Avatar V unavailable; fall back to Avatar IV.
+                    side_look = _upload_talking_photo(frame, key)
+                    sv = render_audio_input(side_look, audio_url, key, orientation=orientation,
+                                            motion_prompt=DOC_MOTION) if side_look else None
+                side_url = mv.poll_video(sv, key) if sv else None
+                if side_url:
+                    side_mp4 = str(_download(side_url, work / "side.mp4"))
         if not side_mp4:
             post(f":warning: No clean side angle this time ({gmeta.get('rejects', 0)} frames rejected over "
                  f"≤2 attempts) — making the video with home + close-ups (no side reveal).")
