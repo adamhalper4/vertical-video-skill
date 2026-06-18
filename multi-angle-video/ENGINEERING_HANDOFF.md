@@ -55,9 +55,10 @@ use the audio-input path. Never stitch audio fragments.
 - **Server-key fallback:** if the requested avatar isn't on the user's connected key, render on the server account (enables shared/public avatars).
 - **Queue + worker (deploy-race fix):** `RENDER_QUEUE=1` → bot enqueues to the `tokyo_jobs` Google-Sheet queue; separate **`tokyo-worker`** Railway service (same image, `RENDER_WORKER_MODE=1`, no Slack socket) drains it → renders survive bot redeploys. Concurrency-capped; re-claims orphaned jobs. `mv_jobs.py` + `slack_bot.py:_run_render_worker`.
 
-## V9.6 Known bugs / TODO
-- **Minimal/calm pace collapses to 1 cut** on short (~20s) clips — add a min-cuts floor.
-- Side render currently shipping = V8 Seedance-orbit → Avatar IV; the V9.2 all-Avatar-V side is being wired in (needs per-identity side-reference look from V9.3).
+## V9.6 Status / TODO
+- ✅ **SHIPPED (tokyo-bot):** real-human avatar (home rendered on Avatar V) ⇒ the side is **Avatar V** too — the gated side-profile still becomes the side-angle PHOTO look (`avatar_id`), an optional same-group off-gaze VIDEO look (`SIDE_REFERENCE[group_id]` → `engine.reference_look_id`) drives forward gaze, driven by the master `audio_url` (frame-aligned). `render_side_avatar_v()` in `multiangle.py` (public `/v3/videos`, X-Api-Key). Avatar IV (Seedance-still) is the fallback ONLY for photo-only groups with no video look.
+- ✅ **FIXED:** min-cuts floor (`_min_cuts`, ≥3) so calm/long pacing no longer collapses to 1 shot.
+- **Per-identity setup:** the side VIDEO reference (`SIDE_REFERENCE` entry) is created once from real 3/4 off-gaze footage (V9.3) — eng extends the map per identity. Without it, the side still renders on Avatar V (gated side-profile photo look) but gaze control is weaker.
 - Clean up failed `instant_avatar` training looks (`Missing voices/faces`) left in the group.
 
 ================================================================================
