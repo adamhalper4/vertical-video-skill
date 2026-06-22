@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Existing Footage → Avatar — User Interviews (internal)</title><style>:root{--bg:#f6f4fb;--card:#fff;--ink:#16131f;--muted:#6b6577;--line:#e7e2f0;--accent:#0ea5b7;--ac2:#34d39a;--good:#0f9d58;--warn:#d98300;--bad:#d23f3f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:44px 22px 90px}
+h1{font-size:38px;line-height:1.1;margin:0 0 6px;letter-spacing:-.02em}
+h2{font-size:25px;margin:50px 0 12px;display:flex;align-items:center;gap:12px}
+h2 .n{display:inline-flex;width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;font-size:15px;align-items:center;justify-content:center;flex:none}
+h3{font-size:17px;margin:0 0 10px}
+.sub{color:var(--muted);font-size:17px;margin:0 0 6px}
+.kicker{text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--accent);font-weight:700;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 3px rgba(20,10,40,.04)}
+.hr{height:1px;background:var(--line);border:0;margin:40px 0}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+video,img.shot{width:100%;border-radius:12px;display:block;background:#000;border:1px solid var(--line)}
+.cap{font-size:13px;color:var(--muted);margin-top:7px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#eefcfb;color:var(--accent);margin:0 6px 6px 0}
+.pill{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.pill.good{background:#e7f6ee;color:var(--good)}.pill.warn{background:#fdf1df;color:var(--warn)}.pill.bad{background:#fbe9e9;color:var(--bad)}
+.lead{font-size:18px;color:#2c2640}.callout{border-left:3px solid var(--accent);background:#eefcfb;padding:14px 18px;border-radius:0 12px 12px 0;margin:16px 0}
+.note{background:#fff8e6;border:1px solid #f0e0a8;border-radius:10px;padding:12px 16px;color:#6b5a16;font-size:14px;margin-top:14px}
+.foot{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:16px}
+.big{font-size:30px;font-weight:800}</style></head><body><div class="wrap">
+<div class="kicker">HeyGen · Avatar R&amp;D · Internal — do not distribute</div>
+<h1>Existing Footage → Avatar — <span style="color:var(--accent)">User Interviews</span></h1>
+<p class="sub">Turning real 1:1 user-interview <b>Loom recordings</b> into working HeyGen avatars — the same pipeline as the YouTube / Instagram / TikTok editions, pointed at interview calls. Crop the customer's webcam tile, keep the audio, pick a talking window → Avatar V twin + cloned voice + Image-N looks + emotion arc.</p>
+<p class="foot" style="border:0;margin:6px 0 0;padding:0"><b>⚠ Internal / org-only.</b> These are real customers from user-research interviews; this page is not on the public report series and is shared org-only. Consent confirmed for this internal eval.</p>
+<div class="card">
+<div class="kicker">TL;DR</div>
+<p class="lead">Interview Looms are an <b>excellent</b> source — far better than group meetings. Each is a 1:1 call where the customer talks to camera in a large tile, so the crop-the-tile + keep-audio recipe trains cleanly every time. All four twinned + cloned + rendered.</p>
+<div class="grid g3" style="margin-top:14px">
+<div><div class="big" style="color:var(--good)">4 / 4</div><div class="cap">twins trained + voices cloned + arcs rendered</div></div>
+<div><div class="big" style="color:var(--good)">0.84</div><div class="cap">best look identity (Dr. Jen Caudle)</div></div>
+<div><div class="big" style="color:var(--accent)">1:1 &gt; group</div><div class="cap">interview calls beat war-rooms (big tile, customer talks)</div></div>
+</div>
+<div class="callout" style="margin-top:16px"><b>Why interviews work where group meetings don't:</b> a 1:1 interview puts the customer in a large, cameras-on tile and they talk for most of the call — exactly what the trainer needs. Group war-rooms are screen-share with tiny presenter tiles. <b>Look identity tracks face clarity:</b> unobstructed faces (Crystal 0.82, Jen 0.84) score high; a cap + glasses (Marc) depresses ArcFace even though the looks visibly match.</div>
+</div>
+
+<hr class="hr">
+<h2><span class="n">1</span>Marc Renz — finance consultant</h2>
+<p class="sub">Independent finance consultant testing avatar-led explainer videos for clients. Cropped from his 1:1 Loom interview (white cap, glasses, goatee).</p>
+<span class="tag">Source: 1:1 Loom interview</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill bad">looks 0.54 / 0.59</span>
+<div class="grid g2">
+<div class="card"><h3>① Source — the interview call</h3>
+<video controls playsinline preload="metadata" src="https://resource2.heygen.ai/video/b7efa6ebd7ec45ff913981b204005cae/original.mp4"></video>
+<div class="cap">2-up Loom call (HeyGen interviewer + customer). We crop the customer's tile + keep the audio.</div></div>
+<div class="card"><h3>② Twin from the cropped tile — emotion arc</h3>
+<video controls playsinline preload="metadata" style="display:block;height:440px;width:auto;max-width:100%;margin:0 auto;border-radius:12px;background:#000" src="https://resource2.heygen.ai/video/6c3411a1a20d4bff817f27cca2435b12/original.mp4"></video>
+<div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice.</div></div>
+</div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 💼</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/0e4fddbd124841319121b714199f2dad/original.jpg"><div class="cap">Finance office / blazer (ArcFace 0.54).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/4e0592ae88714b8ca476c381f451afb7/original.jpg"><div class="cap">Podcast studio (ArcFace 0.59).</div></div>
+<div><video controls playsinline preload="metadata" style="display:block;height:300px;width:auto;max-width:100%;margin:0 auto;border-radius:12px;background:#000" src="https://resource2.heygen.ai/video/ced931311da24f2c9e0a64d56cf7597a/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+<div class="note">ArcFace reads low (0.54/0.59) because the cap + glasses occlude facial landmarks — visually the looks clearly preserve his cap, glasses and goatee.</div>
+<hr class="hr">
+<h2><span class="n">2</span>Gary Lorenz — localization lead</h2>
+<p class="sub">Runs an in-house curriculum localization project (Mandarin/Cantonese/Spanish). Clean indoor home-office tile from his interview.</p>
+<span class="tag">Source: 1:1 Loom interview</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill warn">looks 0.70 / 0.69</span>
+<div class="grid g2">
+<div class="card"><h3>① Source — the interview call</h3>
+<video controls playsinline preload="metadata" src="https://resource2.heygen.ai/video/3f777d5c5ece44f583cd3aad96e89b27/original.mp4"></video>
+<div class="cap">2-up Loom call (HeyGen interviewer + customer). We crop the customer's tile + keep the audio.</div></div>
+<div class="card"><h3>② Twin from the cropped tile — emotion arc</h3>
+<video controls playsinline preload="metadata" style="display:block;height:440px;width:auto;max-width:100%;margin:0 auto;border-radius:12px;background:#000" src="https://resource2.heygen.ai/video/5b3affc7c1734d4f89cbbebe2b6937f8/original.mp4"></video>
+<div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice.</div></div>
+</div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🌐</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/e8950b274cce413f9b2d2ed189198a8a/original.jpg"><div class="cap">Modern office / shirt (ArcFace 0.70).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/7a90d611fcfb4b859b0f6d97278c3da7/original.jpg"><div class="cap">Warm podcast studio (ArcFace 0.69).</div></div>
+<div><video controls playsinline preload="metadata" style="display:block;height:300px;width:auto;max-width:100%;margin:0 auto;border-radius:12px;background:#000" src="https://resource2.heygen.ai/video/bfedf3bbea9244a58d658f29c36e38e2/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+
+<hr class="hr">
+<h2><span class="n">3</span>Crystal Ricevuto — VP Marketing</h2>
+<p class="sub">VP of Marketing at Levitate (B2B SaaS), using avatars for customer-facing content. Clean, well-lit interview tile.</p>
+<span class="tag">Source: 1:1 Loom interview</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.78 / 0.82</span>
+<div class="grid g2">
+<div class="card"><h3>① Source — the interview call</h3>
+<video controls playsinline preload="metadata" src="https://resource2.heygen.ai/video/dac52765039845ae8a9efea7b06cd3b2/original.mp4"></video>
+<div class="cap">2-up Loom call (HeyGen interviewer + customer). We crop the customer's tile + keep the audio.</div></div>
+<div class="card"><h3>② Twin from the cropped tile — emotion arc</h3>
+<video controls playsinline preload="metadata" style="display:block;height:440px;width:auto;max-width:100%;margin:0 auto;border-radius:12px;background:#000" src="https://resource2.heygen.ai/video/5103155bba1c436ca5137194bb0472ec/original.mp4"></video>
+<div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice.</div></div>
+</div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 📈</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/634da6385c9544bd9d0185b3e479770e/original.jpg"><div class="cap">Marketing office / blazer (ArcFace 0.78).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/33296840dc6c4d5ebe89b982ecb38863/original.jpg"><div class="cap">Podcast studio (ArcFace 0.82).</div></div>
+<div><video controls playsinline preload="metadata" style="display:block;height:300px;width:auto;max-width:100%;margin:0 auto;border-radius:12px;background:#000" src="https://resource2.heygen.ai/video/dee971da74a6457a996f8cf91772164d/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+
+<hr class="hr">
+<h2><span class="n">4</span>Dr. Jen Caudle — family physician</h2>
+<p class="sub">Family physician and health-content creator translating her videos into 8-9 languages. Clean interview tile.</p>
+<span class="tag">Source: 1:1 Loom interview</span><span class="tag">Twin: Avatar V ✓</span><span class="tag">Voice clone ✓</span><span class="pill good">looks 0.82 / 0.84</span>
+<div class="grid g2">
+<div class="card"><h3>① Source — the interview call</h3>
+<video controls playsinline preload="metadata" src="https://resource2.heygen.ai/video/eeb72321eab647d49282c682cfddec99/original.mp4"></video>
+<div class="cap">2-up Loom call (HeyGen interviewer + customer). We crop the customer's tile + keep the audio.</div></div>
+<div class="card"><h3>② Twin from the cropped tile — emotion arc</h3>
+<video controls playsinline preload="metadata" style="display:block;height:440px;width:auto;max-width:100%;margin:0 auto;border-radius:12px;background:#000" src="https://resource2.heygen.ai/video/0d0ad45921ca4b45a00e758a4e436c8c/original.mp4"></video>
+<div class="cap">4-beat arc (excited → serious → empathetic → emphatic), cloned voice.</div></div>
+</div>
+<div class="card"><h3>③ Image-N looks + ④ generated-look demo 🩺</h3>
+<div class="grid g3">
+<div><img class="shot" src="https://resource2.heygen.ai/image/756734653f8c4fd6a832b65179f34dc9/original.jpg"><div class="cap">Clinic / white coat (ArcFace 0.82).</div></div>
+<div><img class="shot" src="https://resource2.heygen.ai/image/344c204586dd4a018c9719be55cb51aa/original.jpg"><div class="cap">Health studio (ArcFace 0.84).</div></div>
+<div><video controls playsinline preload="metadata" style="display:block;height:300px;width:auto;max-width:100%;margin:0 auto;border-radius:12px;background:#000" src="https://resource2.heygen.ai/video/bd21669e941e419e8456a5c089b9a906/original.mp4"></video><div class="cap"><b>Generated-look demo — caption-free.</b></div></div>
+</div></div>
+
+<hr class="hr">
+<h2><span class="n">5</span>Method</h2>
+<div class="card"><p>Per interview: pull the Loom recording (<code>yt-dlp --cookies-from-browser</code>) → identify the customer's tile (vs the HeyGen interviewer) → crop head-and-shoulders, upscale, <b>keep the audio track</b> → Avatar V twin via <code>/v2/video_avatar</code> + bundled R&amp;D consent → clone voice from a solo-speaking span → 2 Image-N looks (ArcFace-scored) → 4-beat emotion arc + generated-look demo (ElevenLabs v3) → host. Identity = ArcFace cosine vs a source frame.</p>
+<p class="foot" style="border:0">Companion to the public <a href="https://www.heygenverse.com/a/11b1ef0b-b85c-4c9f-a5d6-dce9a17be7fc">Existing Footage → Avatar</a> hub (YouTube/IG/TikTok/Meet). This interviews edition is internal/org-only.</p></div>
+</div></body></html>
