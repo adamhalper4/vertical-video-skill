@@ -1,14 +1,86 @@
-# av-multi-angle-video — Engineering Handoff (V9, 2026-06-17)
+# av-multi-angle-video — Engineering Handoff (V12, 2026-06-25)
 
 One avatar look + a script → a finished talking-head that cuts between camera angles like a
-multi-camera studio shoot. This doc is the **current, authoritative spec** (supersedes the V1–V3
-parts of `SKILL.md`). Read THIS first; §0–§8 (the V8 core model: one-take/N-cameras/one-edit,
-cohesion-gated orbit, cut grammar, assembler) are still accurate and detailed below.
+multi-camera studio shoot. **The V11–V12 block immediately below is the CURRENT authoritative spec.**
+§0–§8 further down are the older V8 base (one-take/N-cameras, cohesion-gated orbit, cut grammar,
+assembler — still accurate); the V9 UPDATE block's "side on Avatar V" recipe is **SUPERSEDED** (the
+side is now Avatar IV — see the gaze section below).
+
+================================================================================
+# V11–V12 (2026-06-25) — mixed-model engine, 6 director cuts, tail-pad, Avatar-IV-not-III fix
+
+Links: [iteration log](https://www.heygenverse.com/a/8c06e498-1077-4aa8-baec-d3dae7b215d0) ·
+[gaze investigation](https://www.heygenverse.com/a/78000ed6-4e9f-42eb-8987-195a9af70648) ·
+[Phase 3 quality eval](https://www.heygenverse.com/a/ac4044a4-7447-465d-aca3-43cb763c9b79)
+
+## Engine matrix (current)
+| Shot | real-human avatar (group has a ready instant_avatar / V cross-ref) | virtual / photo-only avatar |
+|---|---|---|
+| HOME (`straight_on`) | **Avatar V** — `/v3/videos` `engine.type=avatar_v` (`render_avatar_v`) | **Avatar IV** — `/v3/videos` `engine.type=avatar_iv` (`render_avatar_iv`) |
+| close_up | center-crop of HOME, no extra render | center-crop of HOME |
+| SIDE | **Avatar IV** — `/v3/videos` `engine.type=avatar_iv` (`render_side_avatar_iv`) | **Avatar IV** (same) |
+
+**Router = `order=["v","iv"]` in `multiangle.py`.** Try Avatar V; if HeyGen 400s *"No cross-reference
+candidate available for Avatar V"* (photo-only/virtual group), fall back to **`render_avatar_iv`**
+(`/v3` `engine.type=avatar_iv`). ⚠️ **Do NOT fall back to the legacy `/v2/video/generate`
+talking-photo path — it silently renders the OLD engine (Avatar III).** `render_talking_photo` /
+`render_audio_input` are deprecated for this pipeline (bug fixed 2026-06-25). Real-human → V front +
+IV side; virtual → IV throughout.
+
+## Why the SIDE is Avatar IV, not Avatar V (the gaze finding)
+Avatar V re-poses any side look toward a frontal, camera-facing stance partway through the clip (its
+talking-head prior) — 45/75/90°, and no `motion_prompt` reliably fixes it on the public `/v3` path.
+**Avatar IV animates literally from the source pose and HOLDS the off-lens side profile**, so the side
+renders on IV (`DOC_MOTION` "subject-unaware" prompt), driven by the master audio, color-matched at the
+V↔IV cut. Nuances (full evidence in the gaze report):
+- **tokyo_v2_2 + `gaze_mode:"side_view"` (Shots/api2) DOES hold on Avatar V** — but that path needs a
+  session bearer (`api2` 401s on `X-Api-Key`), so it's not headless. The literal `gaze_mode` field is
+  rejected on public `/v3`.
+- A side-view `motion_prompt` on public `/v3 avatar_v` holds a **strong ~75° look (5/5)** but
+  **re-centers the milder 3/4 angle-pack looks the pipeline produces (0/3)** → so **IV stays** (robust to
+  any angle). The Avatar-V side path is only viable with much stronger 75°+ side-look generation.
+
+## Side-look generation
+- **PRIMARY (real-human): angle-pack** — `imagen.generate_angle_pack(home_look_image)` Seedance video
+  anchored on the home LOOK image → frame-pick → register `photo_avatar` (`side_look_via_anglepack`):
+  same position/outfit/scene, camera moved. Rendered on Avatar IV.
+- **FALLBACK: cohesion-gated orbit** of the HOME render (§3) → gated frame → `photo_avatar` → IV. The
+  gate (Gemini turn/gaze/artifacts + ArcFace identity + bg-overlap, ≤1 reroll) is stochastic; if it
+  never clears, the video ships **home + close-ups only** (No-Side) — graceful, never a broken side.
+
+## V12 — six director cuts (free, one render)
+Each is a different cut sheet over the SAME home/side/master-audio (LLM cut-plan + ffmpeg, no avatar
+re-render): **Energetic** (most cuts) · **Standard** · **Minimal** · **Natural Cut** (side enters only
+on a sentence break) · **No Side** (home + close-ups) · **Freestyle** (LLM designs the plan). `VARIATIONS`
++ `cut_sheet(opts)` in `multiangle.py`.
+
+## Finishing fixes (2026-06-25)
+- **Tail-pad outro:** the final mux holds the last frame `_TAIL_PAD`=0.5s + pads audio with silence, so
+  clips don't end abruptly on the last word.
+- **`+faststart`** on the final mux (moov atom to front) so renders stream in a `<video>` / HV embed.
+- **Attribution strip:** the Slack `*Sent using* @Claude` footer is stripped before TTS (was being spoken,
+  incl. a stray "asterisk").
+
+## Embedding renders in HV apps
+HV `/s/{uuid}/raw` **video** assets are download-scoped → they spin forever in a `<video>` tag. Host the
+mp4s on a public GitHub repo and reference `cdn.jsdelivr.net/gh/<user>/<repo>@<SHA>/<file>.mp4`
+(`video/mp4` + range, faststart). Images (`<img src=…/s/raw>`) are fine.
+
+## Key files (bot repo `~/tokyo-bot`)
+- `video_skills/multiangle.py` — orchestration; `order=["v","iv"]`, `render_side_avatar_iv`,
+  `side_look_via_anglepack`, `assemble` (tail-pad + faststart), `cut_sheet` (6 variants).
+- `video_skills/make_video.py` — `render_avatar_v`, **`render_avatar_iv` (new)**, `render_talking_photo`
+  (deprecated for multi-angle).
+- `multiangle_orbit.py` (gate) · `multiangle_cut/` (cut grammar) · `mv_jobs.py` (queue) · `tokyo-worker`
+  Railway service (renders survive bot redeploys).
 
 Iteration history + example videos: https://www.heygenverse.com/a/8c06e498-1077-4aa8-baec-d3dae7b215d0
 
 ================================================================================
-# V9 UPDATE (2026-06-17) — all-Avatar-V, full personality, correct side-angle method, tokyo-bot
+# V9 UPDATE (2026-06-17) — ⚠️ SUPERSEDED (kept for history)
+> **OUTDATED:** the "side renders on Avatar V" recipe in V9.1/V9.2/V9.6 below was overturned in V11
+> — the side is now **Avatar IV** (Avatar V re-centers it; validated 0/3 hold on the pipeline's
+> angle-pack looks). See the V11–V12 block at the top. The cut-grammar / orbit / queue details remain valid.
 
 ## V9.1 Engine matrix — what each shot renders on
 | Shot | Engine | How |
