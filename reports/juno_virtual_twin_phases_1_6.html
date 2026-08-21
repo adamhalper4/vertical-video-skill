@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juno Vale — Virtual Twin Footage Library (Phases 1–5 + Phase 6 design)</title>
+<!--
+  av-report-style . HeyGenverse "Quiet Terminal Brief" template (v2, 2026-07-30)
+  ...............................................................................
+  HOW TO USE: copy this file to dest/topic_report.html, then replace everything
+  between the CONTENT-START and CONTENT-END marker comments with the real
+  report body. Those markers exist exactly once, inside body - any script that
+  swaps content MUST search for them starting from the body tag, never from
+  the top of the file. DO NOT change the style block - those tokens are the
+  canonical style (v2, calibrated 2026-07-30 to Adam's preferred simpler look;
+  replaces the purple Leadership Brief). Then open the file.
+  WARNING (formatting corruption): this comment must never contain a literal
+  marker comment, a style-opening/closing tag, or any HTML comment delimiters.
+  Keep this comment plain prose. Component vocabulary is demonstrated below
+  with [PLACEHOLDER] content.
+-->
+<style>
+  :root{
+    --bg:#f5f7fb; --ink:#18202c; --mut:#6a7382; --line:#e3e8f0; --line2:#eef1f6;
+    --card:#ffffff; --head:#0b1220; --headmut:#8b96a8; --headtxt:#aeb8c8;
+    --good:#0f7a44; --bad:#b42318; --warn:#9a6700; --chip:#eef2f8;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:14px/1.6 -apple-system,system-ui,"Segoe UI",Inter,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:34px 24px 90px}
+  .banner{background:var(--head);color:#fff;border-radius:14px;padding:20px 24px;margin:0 0 16px}
+  .banner .kick{font:700 10.5px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--headmut);margin-bottom:8px}
+  .banner h1{font-size:21px;line-height:1.25;margin:0;color:#fff;font-weight:700;letter-spacing:-.01em}
+  .banner h1 .u{color:var(--headmut);font-weight:600;font-size:16px;letter-spacing:0}
+  .banner p{color:var(--headtxt);font-size:13.5px;line-height:1.6;margin:9px 0 0}
+  .banner b{color:#fff;font-weight:700}
+  .banner a{color:#c8d2e0}
+  .kick{font:700 10.5px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  h1{font-size:21px;margin:10px 0 6px;font-weight:700}
+  h1 .u{color:var(--mut);font-weight:600;font-size:16px}
+  .byline{color:var(--mut);font-size:13px;margin-bottom:4px}
+  .legend{font-size:12px;color:var(--mut);margin:6px 0 0}
+  h2{font-size:15px;margin:34px 0 10px;font-weight:700;color:var(--ink);letter-spacing:0;text-transform:none}
+  h3{font-size:14px;margin:0 0 6px;font-weight:700}
+  p{margin:8px 0}
+  a{color:var(--ink);text-decoration:underline;text-decoration-color:#b9c2d0;text-underline-offset:2px}
+  a:hover{text-decoration-color:var(--ink)}
+  .hero-callout{background:var(--head);border-radius:14px;padding:18px 22px;color:#fff;margin:14px 0 8px}
+  .hero-callout .pill{display:inline-block;background:none;color:var(--headmut);font:700 10.5px var(--mono);
+    letter-spacing:.12em;text-transform:uppercase;padding:0;margin-bottom:8px}
+  .hero-callout p{margin:0;font-size:13.5px;line-height:1.65;color:var(--headtxt)}
+  .hero-callout b{color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+  @media(max-width:720px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:14px 16px;text-align:left}
+  .stat .n{font:800 21px/1.15 var(--mono);color:var(--ink)}
+  .stat .n.good{color:var(--good)}
+  .stat .n.warn{color:var(--warn)}
+  .stat .c{font:500 11.5px/1.5 -apple-system,system-ui,"Segoe UI",sans-serif;color:var(--mut);margin-top:7px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 17px}
+  .card .tag{font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:6px;display:block}
+  .card ul{margin:6px 0 0}
+  code{background:var(--chip);color:var(--ink);padding:1px 5px;border-radius:4px;font:12px var(--mono)}
+  .warn-box{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:10px;padding:13px 17px;margin:8px 0}
+  .warn-box .ct{color:var(--warn);font:700 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  table{width:100%;border-collapse:collapse;margin:6px 0;font-size:13.5px;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th,td{text-align:left;padding:8px 11px;vertical-align:top}
+  th{font-size:12.5px;font-weight:700;color:var(--ink);background:var(--chip);text-transform:none;letter-spacing:0}
+  td{border-top:1px solid var(--line2)}
+  tbody tr:hover{background:#fafbfd}
+  .num{font-family:var(--mono)}
+  .pill{font:700 10.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:0;border-radius:0;background:none;white-space:nowrap;display:inline-block}
+  .p-ok{color:var(--good);background:none}
+  .p-no{color:var(--bad);background:none}
+  .p-warn{color:var(--warn);background:none}
+  .p-mut{color:var(--mut);background:none}
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:8px}
+  .ct-card{background:var(--card);border:1px solid var(--line);border-radius:11px;overflow:hidden;
+    text-decoration:none;color:inherit;display:flex;flex-direction:column}
+  .ct-card:hover{border-color:#b9c2d0}
+  .ct-top{padding:12px 14px 6px;display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+  .ct-name{font-weight:700;font-size:13.5px;line-height:1.35}
+  .ct-url{font:11px var(--mono);color:var(--mut);padding:0 14px}
+  .ct-body{padding:7px 14px 13px;font-size:12.5px;color:var(--mut);flex:1;line-height:1.55}
+  .ct-body b{color:var(--ink);font-weight:600}
+  .live{font:700 9.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:0;white-space:nowrap}
+  .live-y{color:var(--good);background:none}
+  .live-n{color:var(--bad);background:none}
+  ul{padding-left:20px;margin:6px 0}
+  li{margin:4px 0}
+  .ask{background:none;border:0;border-left:2px solid var(--line);border-radius:0;padding:2px 14px;margin:10px 0;box-shadow:none}
+  .ask b{color:var(--ink)}
+  .ok{color:var(--good)} .bad{color:var(--bad)} .warnt{color:var(--warn)} .mut{color:var(--mut)}
+  footer{margin-top:44px;border-top:1px solid var(--line);padding-top:16px;font-size:12px;color:var(--mut)}
+  details{margin:8px 0}
+  summary{cursor:pointer;font-size:13px;font-weight:600}
+  pre{background:var(--chip);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+  pre code{background:none;padding:0;font-size:11.5px;line-height:1.55}
+  .mchip{font:600 12px -apple-system,system-ui,sans-serif;padding:4px 12px;border-radius:999px;border:1px solid var(--line);
+    background:var(--card);color:var(--mut);cursor:pointer}
+  .mchip.active{background:var(--ink);border-color:var(--ink);color:#fff}
+  .mchip:hover{border-color:#b9c2d0}
+  .listview{font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<!-- CONTENT START — replace everything below with the real report -->
+<div class="banner">
+  <div class="kick">AVATAR R&amp;D · VIRTUAL DIGITAL TWIN FOOTAGE LIBRARY · PHASES 1–5 + PHASE 6 DESIGN · AUG 2026</div>
+  <h1>Juno Vale: a virtual twin's footage library, and what routing it buys</h1>
+  <p>A fully virtual presenter — one gpt-image photo → one Seedance anchor clip → 8 emotion clips generated
+  against that anchor as <b>reference_video</b>. <b>Phase 1: identity (ArcFace 0.80–0.86), voice (0.92–0.96)
+  and scripts (≥0.97) locked across the library.</b> <b>Phase 2: routing the matched emotion clip beats a
+  neutral reference 7–1 on pairwise authenticity</b> on fresh scripts. <b>Phase 3, on 8 real production
+  prompts: routed wins 5–3 with zero prompt-adherence cost</b> — routing pays on expressive beats, the calm
+  anchor is the right default for restrained ones, and identity survives every presenter-style scene. <b>Phase 4: a fixed reference is
+  itself the consistency mechanism</b> — the library buys expressive range in her voice, not cohesion. <b>Phase 5:
+  routing wins the character axis 6–2 at the extremes, but Seedance undershoots the extremes in BOTH arms</b> — an
+  engine ceiling, not a footage problem. The recap below re-reads all five phases against the now-closed Aug 5–20
+  block; <b>Phase 6</b> is the lineup test that would show whether the expressive range is actually hers.</p>
+</div>
+
+<div class="legend">✅ gate-verified &nbsp;·&nbsp; 📣 self-reported/judge-flagged &nbsp;·&nbsp; ⚠️ caveat —
+every number traces to a gate JSON in the appendix. Identity = ArcFace (never a VLM); voice = resemblyzer
+speaker-embedding cosine vs the anchor; gestures + artifacts + transcripts = Gemini 3.1 Pro.</div>
+
+<div class="stats">
+  <div class="stat"><div class="n good">8/8</div><div class="c">clips identity + voice + script locked ✅</div></div>
+  <div class="stat"><div class="n">0.84</div><div class="c">mean ArcFace vs identity photo (range .80–.86)</div></div>
+  <div class="stat"><div class="n">0.95</div><div class="c">mean voice cosine vs anchor (range .92–.96)</div></div>
+  <div class="stat"><div class="n warn">5/8</div><div class="c">signature gestures literal; 3 approximate ⚠️</div></div>
+</div>
+
+<h2>Recap — what the five phases settle, and what they don't</h2>
+
+<p>Written 2026-08-20, after the wider footage-library block closed
+(<a href="https://www.heygenverse.com/a/a08166b7-7960-4524-a331-a9d877eb84bd" target="_blank">closing brief</a>,
+<a href="https://www.heygenverse.com/a/b553039c-a74c-4880-a137-847e99057ccc" target="_blank">week log</a>). Every row
+below is re-read against that block, so the verdict column is the <i>current</i> status, not what each phase claimed
+on the day. Deterministic rows (ArcFace, resemblyzer, transcript) stand on their own; judge rows are labelled.</p>
+
+<table>
+  <thead><tr><th>What the phase found</th><th>Status now</th><th>Number</th><th>Instrument</th></tr></thead>
+  <tbody>
+    <tr><td>One generated photo + one anchor clip locks a virtual identity across a whole library</td>
+        <td><span class="pill p-ok">SETTLED</span></td>
+        <td class="num"><b class="ok">.80–.86</b></td>
+        <td>ArcFace vs the identity photo, 8/8 emotion clips. Deterministic ✅</td></tr>
+    <tr><td>A virtual voice can be locked <b>without any TTS</b> — native Seedance audio survives the reference chain</td>
+        <td><span class="pill p-ok">SETTLED</span></td>
+        <td class="num"><b class="ok">.92–.96</b></td>
+        <td>resemblyzer cosine vs the anchor; transcripts ≥.97. Deterministic ✅</td></tr>
+    <tr><td>Anchor-as-reference is <b>strictly better</b> than dropping the reference</td>
+        <td><span class="pill p-ok">SETTLED</span></td>
+        <td class="num">−.05…−.07 arc<br>−.09…−.11 voice</td>
+        <td>Controlled diagnostic: no-ref cost identity and voice and did <i>not</i> unlock the missing gestures ✅</td></tr>
+    <tr><td>Count-precise hand choreography is a <b>text-conditioning limit</b>; broad-stroke quirks render</td>
+        <td><span class="pill p-warn">ENGINE</span></td>
+        <td class="num">5/8 literal</td>
+        <td>Double-clap, thumb-first counting, fingertip steeple stayed approximate through gesture-first re-rolls ✅</td></tr>
+    <tr><td>Occlusion erases identity; face-contact gestures morph hands</td>
+        <td><span class="pill p-no">HARD RULE</span></td>
+        <td class="num">arc ≈ 0</td>
+        <td>Ski cell (helmet + goggles) obeyed the prompt and destroyed the face. Never occlude if identity matters ✅</td></tr>
+    <tr><td>Routing the matched emotion clip beats the neutral anchor on <b>authenticity</b></td>
+        <td><span class="pill p-warn">JUDGE-DEPENDENT</span></td>
+        <td class="num">7–1 · 5–3 · 6–2</td>
+        <td>Gemini pairwise, library studied first, order-flipped, 3 passes. <b>No positive control that the judge could fail</b> — see the caveat below 📣</td></tr>
+    <tr><td>Routing costs <b>nothing</b> on prompt adherence</td>
+        <td><span class="pill p-ok">HOLDS</span></td>
+        <td class="num">3.25 = 3.25</td>
+        <td>8 real production Seedance prompts, verbatim except the person descriptor 📣</td></tr>
+    <tr><td>Expressive refs <b>lose restrained beats</b> ⇒ ship a 2-way router</td>
+        <td><span class="pill p-ok">SHIPPED</span></td>
+        <td class="num"><b class="bad">0/3</b></td>
+        <td>Phase 3's serious / empathetic / wow prompts all went to the control. This is the one cleared win of the whole Aug 5–20 block ✅</td></tr>
+    <tr><td>Reference <b>wardrobe bleeds</b> into scenes that don't specify wardrobe</td>
+        <td><span class="pill p-warn">CAUTION</span></td>
+        <td class="num">blazer @ beach</td>
+        <td>Visible in the Phase 3 wide-scene cells; the reference fills whatever the prompt leaves unsaid ✅</td></tr>
+    <tr><td>A <b>fixed</b> reference is itself the consistency mechanism — the cohesion hypothesis was wrong</td>
+        <td><span class="pill p-no">REFUTED</span></td>
+        <td class="num">.979 vs .972</td>
+        <td>Two 12-video channels: control as cohesive or tighter on face dispersion, set-judge 3–1 control ✅</td></tr>
+    <tr><td>What the library actually buys is <b>expressive range in her voice</b>, at a small uniformity cost</td>
+        <td><span class="pill p-mut">RESTATED</span></td>
+        <td class="num">arc .824 / .842</td>
+        <td>Control converges to one calm register in every style; routed's recurring mannerisms are style-specific library signatures ✅</td></tr>
+    <tr><td>Seedance has an <b>intensity ceiling</b> no reference defeats</td>
+        <td><span class="pill p-warn">ENGINE</span></td>
+        <td class="num">6/8 + 6/8</td>
+        <td>Both arms undershot the extremes with human-approved extreme refs. True extremes need engine-side levers ✅</td></tr>
+    <tr><td>Expressive refs <b>destabilize speech</b>, worst on short lines</td>
+        <td><span class="pill p-no">COST</span></td>
+        <td class="num"><b class="bad">0.71</b> vs 0.90</td>
+        <td>Keep reference dialogue long; reject any candidate ref that speaks the wrong words (leak risk) ✅</td></tr>
+    <tr><td>A judge fingerprint must cover <b>every</b> library signature</td>
+        <td><span class="pill p-mut">METHOD RULE</span></td>
+        <td class="num">3-clip artifact</td>
+        <td>A 3-clip fingerprint flagged her own head-back laugh and lens-point as "off-character" ⚠️</td></tr>
+  </tbody>
+</table>
+
+<div class="grid2" style="margin-top:14px">
+  <div class="card"><span class="tag">carried into the closing brief</span><h3>What Juno contributed</h3>
+    <ul>
+      <li><b>The 2-way router</b> — the one shipped win: expressive beats → matched footage, restrained beats → neutral anchor.</li>
+      <li><b>The intensity ceiling</b> — labelled single-subject, and the reason "unlock extremes" is now an engine ask rather than a footage ask.</li>
+      <li><b>The speech-destabilization cost</b> of expressive references, which is why reference dialogue length is now a spec and not a preference.</li>
+      <li><b>Wardrobe bleed</b>, which became the general mechanism in the week log: a reference transfers whatever the prompt leaves room for.</li>
+    </ul></div>
+  <div class="card"><span class="tag">caveat — read before quoting a margin</span><h3>Juno's judge never had a control it could fail</h3>
+    <ul>
+      <li>The block voided two judges on exactly this ground: a VLM authenticity-to-self score rated <b>real webcam footage</b> 0.7–2.7/6, and the replay channel-fit judge ranked the creator's <b>actual video</b> 1st on 28% / 37% against a 33% chance line.</li>
+      <li>Juno's instrument is different — <i>pairwise</i> preference with the library studied first, not an absolute "moves like herself" score — and her identity, voice and transcript numbers are deterministic. Those are unaffected.</li>
+      <li>But <b>7–1 / 5–3 / 6–2 were never checked against a control the judge could fail.</b> She is fully virtual, so a hidden-<i>real</i>-footage control is impossible by construction; the buildable analogue is a <b>hidden library clip</b> — drop one of her actual takes into the comparison and require the judge to pick it. Phase 6 builds that in.</li>
+      <li>Independently: routing <b>costs identity where it changes the pick</b> (−0.093 paired ArcFace on 7/9 newly-routed steps in the replay work) — consistent with Juno's routed-vs-control gap. Gate the routed reference on identity.</li>
+    </ul></div>
+</div>
+
+<h2>The character — one photo is the whole identity</h2>
+<div class="grid2">
+  <div class="card">
+    <img src="https://resource2.heygen.ai/image/95179383c60c4cf0bb81508a6109f0fa/original.png" style="width:100%;border-radius:8px" alt="Juno Vale identity photo">
+    <div class="cap">Canonical identity photo — winner of 7 gpt-image candidates (only one passing the
+    Gemini hand-anatomy gate). Everything below derives from this file.</div>
+  </div>
+  <div class="card">
+    <b>Locked bible (excerpt)</b>
+    <p>Early-30s presenter, copper-red curly bob, freckles, round tortoiseshell glasses (never removed),
+    gold hoops, mustard blazer over black tee, warm creator-loft set, waist-up, hands always in frame.</p>
+    <p><b>Signature quirks:</b> glasses-push with the right middle knuckle · left-side crooked smile ·
+    "conductor hands" · double-clap→palm-rub (excited) · thumb-first 3-count (emphatic) · fingertip steeple +
+    one slow nod (serious) · hair tuck + hand on chest (empathetic) · double point at lens (urgent) ·
+    head-back + palms-up shrug (laugh) · hands to head + freeze (wow) · downward air-pats (confident).</p>
+  </div>
+</div>
+
+<h2>The anchor — one clip locks voice, tone and baseline style</h2>
+<div class="grid2">
+  <div class="cell"><video src="https://resource2.heygen.ai/video/427005ef532a472eb1bdd19c66257616/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">anchor.mp4 — 12s, native Seedance audio. This clip DEFINES her voice; every emotion clip references it.</div></div>
+  <div class="card"><b>Anchor gates</b> ✅
+    <table><tr><th>gate</th><th>result</th></tr>
+    <tr><td>ArcFace vs photo</td><td class="num">0.826 mean / 0.735 min</td></tr>
+    <tr><td>Transcript vs script</td><td class="num">1.000 (word-perfect)</td></tr>
+    <tr><td>Glasses-push quirk</td><td>✅ on camera</td></tr>
+    <tr><td>Artifacts</td><td>minor (finger softness mid-motion)</td></tr></table>
+    <p class="cap">Generated with first_frame = identity photo, quoted dialogue in the prompt,
+    generate_audio:true. No reference_audio anywhere (known-unreliable path).</p>
+  </div>
+</div>
+
+<h2>The library — 8 emotions, gated, best-of-two takes</h2>
+<table>
+<tr><th>emotion</th><th>ArcFace</th><th>voice cos</th><th>script</th><th>gesture</th><th>what renders</th></tr>
+<tr><td><b>excited</b></td><td class='num'>0.834</td><td class='num'>0.932</td><td class='num'>0.996</td><td><span class="pill p-warn">APPROX</span></td><td>single clap + palm rub + lean-in</td></tr><tr><td><b>emphatic</b></td><td class='num'>0.843</td><td class='num'>0.957</td><td class='num'>1.000</td><td><span class="pill p-warn">APPROX</span></td><td>counting-style hand gestures, not thumb-first touches</td></tr><tr><td><b>serious</b></td><td class='num'>0.843</td><td class='num'>0.952</td><td class='num'>1.000</td><td><span class="pill p-warn">APPROX</span></td><td>clasped hands + stillness + nod, not fingertip steeple</td></tr><tr><td><b>empathetic</b></td><td class='num'>0.824</td><td class='num'>0.956</td><td class='num'>0.996</td><td><span class="pill p-ok">VERIFIED</span></td><td>hair tuck + hand on chest</td></tr><tr><td><b>urgent</b></td><td class='num'>0.849</td><td class='num'>0.947</td><td class='num'>0.970</td><td><span class="pill p-ok">VERIFIED</span></td><td>double finger-point at lens</td></tr><tr><td><b>laugh</b></td><td class='num'>0.829</td><td class='num'>0.952</td><td class='num'>0.995</td><td><span class="pill p-ok">VERIFIED</span></td><td>head back + palms-up shrug</td></tr><tr><td><b>wow</b></td><td class='num'>0.836</td><td class='num'>0.919</td><td class='num'>0.996</td><td><span class="pill p-ok">VERIFIED</span></td><td>hands to head + freeze + smile</td></tr><tr><td><b>confident</b></td><td class='num'>0.836</td><td class='num'>0.958</td><td class='num'>0.974</td><td><span class="pill p-ok">VERIFIED*</span></td><td>downward air pats; judge count-strict</td></tr>
+</table>
+<p class="cap">VERIFIED* = judge count-strictness overridden on human review (the prompted gesture is visibly
+present). APPROX = emotionally right, gesture simplified by the engine (see diagnostic below).</p>
+<div class="gal"><div class="cell"><video src="https://resource2.heygen.ai/video/7854d38ddbdb4738a99e53a0bf8f7b9b/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">excited — excited_r2.mp4</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/52a4b8a432ad42b5b4c9cc1e93aad65d/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">emphatic — emphatic_r2.mp4</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/df7e557920b942cebb0b8f3be925e135/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">serious — serious_r2.mp4</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/24f163af282f4e69be207b85d2865f65/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">empathetic — empathetic.mp4</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/534b0db094a74b53a35d750883718477/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">urgent — urgent.mp4</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/c2f64b5111074b4d8dd3174484336371/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">laugh — laugh_r2.mp4</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/a170b6d69b404851b62c85bca1476deb/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">wow — wow.mp4</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/91ab991236b048ec9068dee02c88afd2/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">confident — confident_r2.mp4</div></div></div>
+
+<h2>Why 3 gestures stay approximate — controlled diagnostic</h2>
+<p>Two hypotheses: (a) the calm anchor reference suppresses prompted gestures, or (b) count-precise hand
+choreography exceeds Seedance's text conditioning. We regenerated <b>excited</b> and <b>serious</b> with the
+photo as <code>first_frame</code> and <b>no reference video</b>:</p>
+<table>
+<tr><th>emotion</th><th>with anchor ref (arc / voice)</th><th>photo-only (arc / voice)</th><th>gesture unlocked?</th></tr>
+<tr><td><b>excited</b></td><td class='num'>0.834 / 0.932</td><td class='num'>0.761 / 0.839</td><td><span class='pill p-no'>NO</span> gesture still approximate both ways</td></tr><tr><td><b>serious</b></td><td class='num'>0.843 / 0.952</td><td class='num'>0.810 / 0.862</td><td><span class='pill p-no'>NO</span> gesture still approximate both ways</td></tr>
+</table>
+<div class="warn-box"><b>Verdict: the engine, not the anchor.</b> Removing the reference did NOT produce the
+double-clap or the fingertip steeple (both renders defaulted to hand-clasping) — but it DID cost
+−0.05–0.07 ArcFace and −0.09–0.11 voice cosine. The anchor-reference design is strictly better: it buys identity
++ voice at zero gesture cost. Count-precise choreography (double-clap, thumb-first counting, steepling) is
+below Seedance 2.0's text-conditioning resolution — the same class of miss as tokyo's triple air-chop null
+(5-arm grid, Jul 2026). Broad-stroke quirks (glasses push, lean-in, shrug, pointing, hands-to-head) transfer fine.</div>
+
+<h2>The 48s demo — control vs routed, stitched</h2>
+<div class="cell"><video src="https://resource2.heygen.ai/video/c7d4a01d275d466f93222c150907d802/original.mp4"
+controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video>
+<div class="cap">4 beats (excited → serious → empathetic → emphatic), hard cuts, winning rep per beat —
+same rep both sides. LEFT: every beat generated against her neutral anchor. RIGHT: each beat routed to its
+matched emotion clip (4 different references). Audio from the routed arm. Watch the hands: finger-counting,
+hand-on-chest, steepled hands appear only on the right.</div></div>
+
+<h2>Phase 2 — routing A/B on fresh scripts: routed wins 7–1</h2>
+
+<p>4 NEW beat scripts (excited→serious→empathetic→emphatic), no gesture wording in any prompt — the
+reference clip is the only difference between arms. 2 reps per cell. Pairwise judge studies the library
+clip first (mannerism inventory), 3 passes order-flipped, majority.</p>
+<div class="stats">
+  <div class="stat"><div class="n good">7–1</div><div class="c">routed wins on pairwise authenticity ✅</div></div>
+  <div class="stat"><div class="n">0.824 / 0.842</div><div class="c">ArcFace routed / default</div></div>
+  <div class="stat"><div class="n">0.924 / 0.958</div><div class="c">voice cosine routed / default</div></div>
+  <div class="stat"><div class="n warn">0.85 / 0.92</div><div class="c">script match routed / default ⚠️</div></div>
+</div>
+<table><tr><th>beat × rep</th><th>winner</th><th>judge's deciding mannerism</th></tr><tr><td>b1_excited r1</td><td><span class='pill p-no'>DEFAULT</span> <span class='num'>1/3</span></td><td>Candidate A accurately reproduces the specific &#x27;steeple&#x27; hand clasp (fingertips touching, palms apart) seen in</td></tr><tr><td>b1_excited r2</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>Candidate A faithfully reproduces the specific sequence of hand gestures (open palms, then fingers together in</td></tr><tr><td>b2_serious r1</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>Candidate A accurately matched the steepled-to-open hand gestures, while Candidate B added an uncharacteristic</td></tr><tr><td>b2_serious r2</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>2/3</span></td><td>Candidate A accurately reproduces the specific clasped hand resting position and subtle opening/closing gestur</td></tr><tr><td>b3_empathetic r1</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>A replicates the specific hand-to-glasses then hand-to-chest sequence; B uses generic gestures.</td></tr><tr><td>b3_empathetic r2</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>Candidate A faithfully reproduced the specific, empathetic hand-on-chest gesture seen in the reference, wherea</td></tr><tr><td>b4_emphatic r1</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>Candidate A perfectly replicates the idiosyncratic finger-counting gestures (holding up two fingers, then poin</td></tr><tr><td>b4_emphatic r2</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>Candidate A perfectly replicates the exact sequence of hand gestures from the reference, specifically the uniq</td></tr></table>
+<div class="warn-box"><b>Read the costs honestly.</b> Routing buys authenticity (the judge repeatedly cites
+her literal quirks — finger-counting, hand-on-chest, steepled hands) at a small consistency cost: −0.018
+ArcFace, −0.034 voice, −0.08 script match. The serious beat's long line was flubbed by BOTH arms
+(0.61–0.75), so that miss is beat-specific, not routing-specific.</div>
+<div class="gal"><div class="cell"><video src="https://resource2.heygen.ai/video/417f1750ef0d480b9ec26bc1009896e3/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b1_excited · routed · r1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/73c290fd573e428e96bd0227e09ffabb/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b1_excited · routed · r2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/d43e5b8410dc49c69f42f851ecc1ed5b/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b1_excited · default · r1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/9280f248669b4b6fa49b09eefa7bba96/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b1_excited · default · r2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/16da359a48e648f29d892978fd230cf1/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b2_serious · routed · r1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/626c4eba4f60400b8ffa7dac4239f4df/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b2_serious · routed · r2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/ae8ff4c39cf743be9da3381bd7295b4c/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b2_serious · default · r1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/93e5e459fab346f69a5ca786fd7b0b7c/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b2_serious · default · r2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/74f44d543cb64ae381e701db7adebb90/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b3_empathetic · routed · r1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/4d1b657f129d443d9275260c875d85fc/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b3_empathetic · routed · r2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/574dc33a9e0144168031b340e5fcd0d7/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b3_empathetic · default · r1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/8a4484580e07488a975e61a2dc94daf3/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b3_empathetic · default · r2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/64890a03d3ed47f5803f9867cbcb2329/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b4_emphatic · routed · r1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/c7a6f332dc314df494e3c3f80f76462d/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b4_emphatic · routed · r2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/97c733050647455989759bd06bc16ddb/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b4_emphatic · default · r1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/5b91d525150849e2a22072d3c16055b3/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">b4_emphatic · default · r2</div></div></div>
+
+
+<h2>Phase 3 — real production prompts: routed wins 5–3, identity survives presenter scenes</h2>
+
+<p>8 REAL dialogue prompts sampled from production (<code>SEEDANCE_GENERATIONS</code>, 21-day window, all
+n_users=1 organic; non-internal). Only the person descriptor was adapted to "the woman from the reference
+video" — scene, wardrobe, action, camera and dialogue kept verbatim, native ratios preserved. Routed arm =
+best-fit library clip per prompt; control arm = her neutral anchor. Same prompt both arms.</p>
+<div class="stats">
+  <div class="stat"><div class="n good">5–3</div><div class="c">routed wins pairwise authenticity ✅</div></div>
+  <div class="stat"><div class="n">3.25 / 3.25</div><div class="c">prompt adherence routed / control — routing costs nothing</div></div>
+  <div class="stat"><div class="n warn">0.64 / 0.60</div><div class="c">ArcFace routed / control — production scenes are harder ⚠️</div></div>
+  <div class="stat"><div class="n">0.881 / 0.886</div><div class="c">voice cosine routed / control</div></div>
+</div>
+<table><tr><th>production prompt</th><th>winner</th><th>judge's deciding mannerism</th></tr><tr><td>p1_papers <span class='pill p-mut'>→serious</span></td><td><span class='pill p-no'>CONTROL</span> <span class='num'>0/3</span></td><td>Candidate B better captures the subtle head nods and serious, restrained facial expressions of the reference, </td></tr><tr><td>p2_ski <span class='pill p-mut'>→confident</span></td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>Candidate A stops to face the camera, reproducing the head nods and smile, whereas Candidate B only shows the </td></tr><tr><td>p3_realestate <span class='pill p-mut'>→urgent</span></td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>Candidate A reproduces the specific pointing gestures (at the camera and down) seen in the reference, whereas </td></tr><tr><td>p4_money <span class='pill p-mut'>→serious</span></td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td><td>Candidate A accurately reproduces the subtle mouth articulation and head tilts, while B is overly exaggerated.</td></tr><tr><td>p5_fieldsvc <span class='pill p-mut'>→confident</span></td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>2/3</span></td><td>Candidate A avoids the uncharacteristic hand-clasping and overly exaggerated facial expressions seen in B, mai</td></tr><tr><td>p6_comedy <span class='pill p-mut'>→confident</span></td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>2/3</span></td><td>Candidate A more accurately reproduces the reference&#x27;s specific head tilts to her right and expressive eyebrow</td></tr><tr><td>p7_aivlog <span class='pill p-mut'>→empathetic</span></td><td><span class='pill p-no'>CONTROL</span> <span class='num'>0/3</span></td><td>Candidate B maintains the restrained, subtle head movements and contained physical presence of the reference, </td></tr><tr><td>p8_travel <span class='pill p-mut'>→wow</span></td><td><span class='pill p-no'>CONTROL</span> <span class='num'>0/3</span></td><td>Candidate B replicates the head nods, laugh, and expressive hand gestures, while A remains stiff.</td></tr></table>
+<table><tr><th>item</th><th>ArcFace routed</th><th>ArcFace control</th><th>adherence r / c</th></tr><tr><td>p1_papers</td><td class='num'>0.6287</td><td class='num'>0.5472</td><td class='num'>3 / 4</td></tr><tr><td>p2_ski</td><td class='num'>0.2153</td><td class='num'>-0.0362</td><td class='num'>3 / 3</td></tr><tr><td>p3_realestate</td><td class='num'>0.7581</td><td class='num'>0.7155</td><td class='num'>3 / 3</td></tr><tr><td>p4_money</td><td class='num'>0.728</td><td class='num'>0.8003</td><td class='num'>3 / 3</td></tr><tr><td>p5_fieldsvc</td><td class='num'>0.8062</td><td class='num'>0.7714</td><td class='num'>4 / 3</td></tr><tr><td>p6_comedy</td><td class='num'>0.6875</td><td class='num'>0.6086</td><td class='num'>3 / 4</td></tr><tr><td>p7_aivlog</td><td class='num'>0.7614</td><td class='num'>0.7548</td><td class='num'>4 / 3</td></tr><tr><td>p8_travel</td><td class='num'>0.5531</td><td class='num'>0.655</td><td class='num'>3 / 3</td></tr></table>
+<div class="warn-box"><b>Where identity survives and where it breaks.</b> Presenter-style scenes hold
+(money 0.73–0.80, field-service 0.77–0.81, real-estate 0.72–0.76 — she is unmistakably Juno). The ski cell's
+ArcFace ≈ 0 is <b>face occlusion, not identity drift</b> — Seedance obeyed the prompt's helmet + mirrored
+goggles, which erases both the measurable and the recognizable identity. Wide beach framing lands mid
+(0.55–0.66) though she is visibly Juno — including an unprompted <b>wardrobe bleed</b>: the reference's
+mustard blazer follows her into scenes whose prompt didn't specify clothing. Routing lost the 3 prompts whose
+target delivery is restrained (papers/serious, vlog/empathetic, travel/wow) — the expressive routed reference
+pushed the output MORE animated than the calm control, which better matched those library clips' subtlety.</div>
+<div class="ask"><b>Production takeaway:</b> route expressive beats (pitch, CTA, celebration) to matched
+expressive footage; keep a calm/neutral reference as the default for restrained deliveries — a 2-way router
+(expressive vs restrained) captures most of the win. And never let a prompt occlude the face if identity
+matters.</div>
+<div class="gal"><div class="cell"><video src="https://resource2.heygen.ai/video/c5cc81a26f954453bb43a5821f818ffc/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p1_papers · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/5fc426cc94424c45b1b00fd1420e841e/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p1_papers · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/2a08e381ea1d4d169392d616e99d9a04/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p2_ski · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/e9bc1326d8514ac39c33207934171c77/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p2_ski · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/ea2892c296614b7b9e361a47f15e8500/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p3_realestate · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/db5e44f2498646bebb73a9e6ed9cff0c/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p3_realestate · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/48561a39d979464ca42028e0bbf3fab6/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p4_money · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/18d2720563234f4bba9262c9c84b8c9e/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p4_money · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/65674defa9864400b7099654ca426caa/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p5_fieldsvc · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/d38da766215c4120a3cc395036fc89d7/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p5_fieldsvc · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/70955f31e8cb4299be64b9bf9251cafb/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p6_comedy · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/c176a7a867c34e1c9464eb13ae443703/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p6_comedy · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/e6369b31599f45bc9b08b8fca6af8f1c/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p7_aivlog · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/dd5fbc3918ee43c8b6e0f9e87745d81c/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p7_aivlog · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/09c70bbf5cf147a48b3bc0907632c105/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p8_travel · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/317557163a124ea9a424995c41b10149/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">p8_travel · control</div></div></div>
+
+
+<h2>Phase 4 — the channel test: cohesion hypothesis refuted, and something better found</h2>
+
+<p>Adam's reframe: a new virtual character has no external ground truth — consistency must be judged as a
+property of the SET. Two 12-video channels (4 styles × 3 scripts, identical scripts both arms): routed = the
+style's library clip as reference for all 3 of its videos; control = neutral anchor everywhere.
+Hypothesis: control wins single videos but loses channel cohesion. <b>Blind channel cuts:</b>
+<a href="https://resource2.heygen.ai/video/cbeab2bbbcc04fd7a32b5237f5e1ed8a/original.mp4">Channel A (routed)</a> ·
+<a href="https://resource2.heygen.ai/video/00db8318ce954c228559807d6db1f4a1/original.mp4">Channel B (control)</a>.</p>
+<div class="stats">
+  <div class="stat"><div class="n">0.890 / 0.896</div><div class="c">per-video transcript routed / control — singles TIE as predicted ✅</div></div>
+  <div class="stat"><div class="n warn">1–3</div><div class="c">routed loses the muted set-consistency judge ⚠️</div></div>
+  <div class="stat"><div class="n">5+8 / 5+8</div><div class="c">mannerism recurrence (3of3+2of3) — exact tie</div></div>
+  <div class="stat"><div class="n">.972 / .979</div><div class="c">face render-to-render pairwise routed / control (voice .954/.965)</div></div>
+</div>
+<table><tr><th>style triad</th><th>set-consistency winner</th><th>judge reason</th></tr><tr><td>excited</td><td><span class='pill p-no'>CONTROL</span> <span class='num'>0/3</span></td><td>Montage B displays more consistent recurring gestures across the panels, with the presenter frequent</td></tr><tr><td>serious</td><td><span class='pill p-no'>CONTROL</span> <span class='num'>1/3</span></td><td>Montage B shows more natural habits and consistent energy, making the presenter feel like a unified </td></tr><tr><td>empathetic</td><td><span class='pill p-no'>CONTROL</span> <span class='num'>0/3</span></td><td>Montage B displays more consistent habits across the panels, such as the shared gesture of adjusting</td></tr><tr><td>emphatic</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>2/3</span></td><td>Montage A displays more uniform gestures and energy across all panels, whereas Montage B features mo</td></tr></table>
+<table><tr><th>style</th><th>routed rec.</th><th>routed recurring mannerisms</th><th>control rec.</th><th>control recurring mannerisms</th></tr><tr><td>excited</td><td class='num'>2+1</td><td>Raising eyebrows (Raising eyebrows frequently / Raises eyebrows on key phrases / Smiles wi</td><td class='num'>1+2</td><td>Interlaces fingers at waist / Wide open hands to interlaced fingers / Interlaces fingers a</td></tr><tr><td>serious</td><td class='num'>2+1</td><td>Slight head nods; Eyebrow raises</td><td class='num'>2+0</td><td>Clasps hands (Clasps hands at chest, Clasps hands, Repeatedly clasps hands at waist); Adju</td></tr><tr><td>empathetic</td><td class='num'>0+3</td><td>Open hands moving slightly inward / Opens hands palms inward; Right hand placed on chest /</td><td class='num'>2+2</td><td>Opens hands outward repeatedly; Adjusts glasses with right hand</td></tr><tr><td>emphatic</td><td class='num'>1+3</td><td>Holding/raising two fingers; Pointing index finger to opposite hand/palm</td><td class='num'>0+4</td><td>Interlaces fingers between points / Clasps hands together at waist level; Raises right ind</td></tr></table>
+<div class="warn-box"><b>Cohesion hypothesis refuted — a fixed reference is itself the consistency
+mechanism.</b> The control arm (same anchor every render) is as cohesive or marginally tighter on every
+uniformity metric. But the recurrence CONTENT reveals the real trade: <b>control converges to ONE register
+in all four styles</b> (hand-clasps at waist, glasses adjust, head tilt — the anchor's calm cluster,
+regardless of whether the script is excited or emphatic), while <b>routed's recurring mannerisms differ by
+style and are her library signatures</b> (hand-on-chest recurs in empathetic, finger-counting in emphatic).
+The muted within-style judge structurally rewards uniformity and cannot credit style-appropriate
+expressiveness. Also notable: the glasses-push quirk propagates through the anchor into BOTH arms — the
+anchor alone already carries her #1 identity marker.</div>
+<div class="ask"><b>Restated value proposition:</b> the anchor is the consistency backbone (always pass it —
+or a fixed ref — for cohesion); the library buys <i>expressive range in her voice</i> — style-appropriate
+signature behavior at a small, measurable uniformity cost (−0.007 face, −0.010 voice pairwise). The channel
+choice is monotone-consistent vs expressive-consistent — a human call on the blind cuts above (which feels
+more like a real person's channel?), not one the automated judge can make.</div>
+
+
+<h2>Phase 5 — extremes: routed wins the character axis 6–2, but the engine undershoots extremes in BOTH arms</h2>
+
+<p>Adam's hypothesis: references matter most at the extremes — without a routed ref the model hallucinates
+off-character behavior; with one, the extreme comes out HER way. Design: 8 extreme scenarios (4 in-library-adjacent,
+2 novel emotions, 2 specific gesture sequences), <b>identical extreme prompts</b> ×
+{control: anchor ref} vs {routed: Adam-approved extreme reference} — the 8 refs were generated as library
+extensions and human-approved first (2–3 takes each; fury needed a chop-explicit re-roll; sigcombo's
+best-gesture take was REJECTED for speaking wrong words — leak risk — in favor of a correct-words take).
+Judge: behavioral fingerprint built from 3 CORE library clips (never the x-refs), then per-cell execution /
+undershoot / off-character audit + pairwise "the extreme done her way".</p>
+<div class="stats">
+  <div class="stat"><div class="n good">6–2</div><div class="c">routed wins pairwise "extreme done HER way" ✅</div></div>
+  <div class="stat"><div class="n warn">6/8 + 6/8</div><div class="c">undershoot in BOTH arms — the engine resists extremes ⚠️</div></div>
+  <div class="stat"><div class="n">2.6 / 2.5</div><div class="c">mean execution routed / control (1–5) — only celebration + shock fully landed</div></div>
+  <div class="stat"><div class="n warn">0.71 / 0.90</div><div class="c">script fidelity routed / control — expressive refs destabilize speech ⚠️</div></div>
+</div>
+<table><tr><th>scenario</th><th>exec r/c</th><th>undershoot r/c</th><th>off-char r/c</th><th>as-her winner</th></tr><tr><td>ecstatic_win <span class='pill p-mut'>ref x_ecstatic_c2</span></td><td class='num'>3 / 4</td><td class='num'>n / n</td><td class='num'>0 / 0</td><td><span class='pill p-no'>CONTROL</span> <span class='num'>0/3</span></td></tr><tr><td>shock_gasp <span class='pill p-mut'>ref x_shock_c2</span></td><td class='num'>3 / 3</td><td class='num'>n / n</td><td class='num'>0 / 0</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>2/3</span></td></tr><tr><td>hysterical_laugh <span class='pill p-mut'>ref x_hysterical_c1</span></td><td class='num'>3 / 2</td><td class='num'>Y / Y</td><td class='num'>1 / 0</td><td><span class='pill p-no'>CONTROL</span> <span class='num'>1/3</span></td></tr><tr><td>panic_warning <span class='pill p-mut'>ref x_panic_c2</span></td><td class='num'>3 / 2</td><td class='num'>Y / Y</td><td class='num'>1 / 0</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td></tr><tr><td>controlled_fury <span class='pill p-mut'>ref x_fury_c3</span></td><td class='num'>2 / 2</td><td class='num'>Y / Y</td><td class='num'>1 / 1</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>2/3</span></td></tr><tr><td>fighting_tears <span class='pill p-mut'>ref x_tearful_c2</span></td><td class='num'>2 / 2</td><td class='num'>Y / Y</td><td class='num'>1 / 0</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td></tr><tr><td>sig_combo <span class='pill p-mut'>ref x_sigcombo_c1</span></td><td class='num'>3 / 3</td><td class='num'>Y / Y</td><td class='num'>1 / 2</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>2/2</span></td></tr><tr><td>novel_gesture <span class='pill p-mut'>ref x_showman_c1</span></td><td class='num'>2 / 2</td><td class='num'>Y / Y</td><td class='num'>2 / 0</td><td><span class='pill p-ok'>ROUTED</span> <span class='num'>3/3</span></td></tr></table>
+<div class="warn-box"><b>Both prior hypotheses lose to the data; a third pattern wins.</b> (1) The
+hallucination premise is NOT supported — the neutral-ref control barely hallucinates (0.38 off-char
+behaviors/cell); its failure mode is UNDERSHOOT: it stays calm when asked for extremes (the Phase 4 monotone
+pull). (2) But approved extreme refs only partially unlock extremes — routed also undershot 6/8; Seedance has
+an intensity ceiling regardless of reference. (3) What routing DOES buy at the extremes is the character axis:
+6–2 on "done her way", identity+voice hold in both arms (~0.82 / ~0.90). Costs and caveats: routed's
+script fidelity drops (0.71 vs 0.90 — the expressive-ref speech-destabilization pattern, worst on short
+lines); and routed's higher off-char count (0.88/cell) is partly a fingerprint-coverage artifact — the judge's
+3-clip fingerprint omits her laugh/urgent signatures, so head-back laughing and lens-pointing were flagged as
+"off-character" when they are in fact her library behaviors. One real defect found: her crooked smile bleeding
+into the fighting-tears cell (emotion-inappropriate signature carryover).</div>
+<div class="ask"><b>Extremes takeaway:</b> route approved extreme footage for character fidelity, but don't
+expect it to defeat the engine's intensity ceiling — unlocking true extremes likely needs engine-side levers
+(expressiveness controls / prompt weighting), not better references. And keep reference dialogue long enough
+that Seedance doesn't improvise speech.</div>
+<p><b>Approved reference set</b> (human-gated before the test):</p>
+<div class="gal"><div class="cell"><video src="https://resource2.heygen.ai/video/4772faf069da4982a5b6efc1103a76ae/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">approved ref · x_ecstatic_c2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/6243ff9c06bc4c07996596a79c990a97/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">approved ref · x_shock_c2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/3bb8c037c6a7454785dba8cc0d4c2241/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">approved ref · x_hysterical_c1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/d36052c5ddd047378cdd15dde8c8d3f9/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">approved ref · x_panic_c2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/3838e4fa10ea452e924d0b4c56b61213/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">approved ref · x_fury_c3</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/f69cef551f3e45afabce6b1062296b6f/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">approved ref · x_tearful_c2</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/dc025be8ab3e46cfa920498b1b0029ec/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">approved ref · x_sigcombo_c1</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/da553ed49c29428884105eea71a09201/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">approved ref · x_showman_c1</div></div></div>
+<p><b>Test cells:</b></p>
+<div class="gal"><div class="cell"><video src="https://resource2.heygen.ai/video/811a405b862444178c29ae1dfa67b37f/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">ecstatic_win · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/173b7321d8a44e4ca2e92ede31269080/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">ecstatic_win · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/39509e76eccb466e9ba5e9fa58480bf5/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">shock_gasp · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/c04b55115ae5402fbff303050842f481/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">shock_gasp · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/df03a1d967254fafa35f3c56cc42f9cf/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">hysterical_laugh · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/63f91e2902824f19bdddb4096d83ca47/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">hysterical_laugh · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/010d4d7187714c8db2dc149ea46bbb1d/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">panic_warning · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/f68fc91e37814a46a0660e68ada7bc19/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">panic_warning · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/82f29a1a07ad4a89a572572d3a904cb8/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">controlled_fury · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/4004bbf032af4b4aa4613e31bb360c20/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">controlled_fury · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/15141956969940d2a3e063593895960f/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">fighting_tears · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/b094f841d3ea4baf8401facd1d403969/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">fighting_tears · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/cf9eeabd0ef24ff8bc3713b1e15d5615/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">sig_combo · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/c1563ecb5327476383776e277001626a/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">sig_combo · control</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/425e3be918084001b66d43b79527941a/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">novel_gesture · routed</div></div><div class="cell"><video src="https://resource2.heygen.ai/video/4a83e2223c6846fcb12f0c3ee141b0f6/original.mp4" controls playsinline preload="metadata" style="width:100%;border-radius:8px;background:#000"></video><div class="cap">novel_gesture · control</div></div></div>
+
+
+<h2>Phase 6 (proposed) — the lineup test: is the expressive range <i>hers</i>, or just what Seedance does?</h2>
+
+<p>Everything above is one character. That is enough to establish that a library <i>changes</i> the output, and not
+enough to say the change is a personality. Every claim in the scorecard is equally consistent with a boring
+alternative: <b>any</b> character run through this pipeline gets hand-on-chest for empathetic and finger-counting for
+emphatic, because that is the engine's default gesture vocabulary for expressive footage — not Juno's. With n=1 the
+two hypotheses are indistinguishable. Phase 6 separates them by adding characters and asking whether they stay
+distinguishable when you take the face away.</p>
+
+<div class="grid2">
+  <div class="card"><span class="tag">part 1 · build</span><h3>2–3 more characters, identical pipeline</h3>
+    <ul>
+      <li>New character bibles with <b>non-overlapping signature quirks by construction</b> — Juno's are glasses-push,
+      lean-in, crooked smile, so the others must not reuse them.</li>
+      <li>gpt-image-2 identity photo → anchor → gated 8-emotion library at best-of-two, exactly as here. Any pipeline
+      change confounds character with process.</li>
+      <li><b>At least one character adversarially similar to Juno</b> — another woman, similar age, also glasses — so
+      the lineup cannot be passed on face or wardrobe alone.</li>
+      <li>Measured cost: Juno's library took <b>16 Seedance generations</b> (1 anchor + 15 emotion takes for 8
+      emotions, including re-rolls). Budget ~16–20 per character ⇒ <b>~48–60 clips</b> for three.</li>
+    </ul></div>
+  <div class="card"><span class="tag">part 2 · convergence</span><h3>Do the libraries themselves collapse?</h3>
+    <ul>
+      <li><b>Mannerism fingerprinting:</b> Gemini extracts a gesture/mannerism inventory per library, then measure
+      overlap across characters. High cross-character overlap = the library is engine defaults, not character.</li>
+      <li><b>Voice check — the sleeper risk.</b> Faces trivially differ (different photos; cross-character ArcFace is
+      only a sanity control), but the voices are <i>native Seedance audio</i> and nothing forces them apart. If
+      cross-character voice cosine is high, "a virtual voice can be locked without TTS" quietly becomes "all virtual
+      characters get approximately the same voice" — which changes the multi-character value prop.</li>
+    </ul></div>
+</div>
+
+<h3 style="margin-top:18px">Part 3 · the lineup itself — the recognizability test proper</h3>
+<p>Render the <b>same scripts</b> across all characters (same beats, so content cannot give it away), then run blind
+attribution: the judge studies each character's library, receives shuffled new renders, and must say who is who. Two
+masking levels, because only one of them is the actual question.</p>
+<table>
+  <thead><tr><th>Condition</th><th>What it is</th><th>What it tells you</th></tr></thead>
+  <tbody>
+    <tr><td><b>Unmasked</b></td><td>full clip, face and audio intact</td>
+        <td><span class="pill p-mut">CEILING / CONTROL</span> Trivially easy. If attribution isn't near-perfect here, the judge protocol is broken and nothing else in the run is readable.</td></tr>
+    <tr><td><b>Identity-suppressed</b></td><td>face blurred and/or audio muted</td>
+        <td><span class="pill p-ok">THE REAL TEST</span> Can the judge attribute above chance from <b>body language alone</b>? This is the only condition where a pass means the libraries encode distinct personalities.</td></tr>
+  </tbody>
+</table>
+
+<h3 style="margin-top:18px">Design decisions — each one traceable to a lesson above</h3>
+<table>
+  <thead><tr><th>Decision</th><th>Spec</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td><b>Characters</b></td><td class="num">3–4 total incl. Juno</td><td>Chance line 1/3–1/4. One of them demographically adversarial so face and wardrobe are not sufficient cues.</td></tr>
+    <tr><td><b>Quirk sets</b></td><td>non-overlapping, written before any render</td><td>If the bibles overlap, convergence is unfalsifiable — you cannot tell a converging engine from converging inputs.</td></tr>
+    <tr><td><b>Pipeline</b></td><td>identical to Phases 1–5</td><td>Photo → anchor → 8 gated emotions, best-of-two. Any change confounds character with process.</td></tr>
+    <tr><td><b>Scripts</b></td><td>same beats for every character</td><td>Content must not leak identity; the only signal left is delivery.</td></tr>
+    <tr><td><b>Judge fingerprint</b></td><td><b>all</b> signatures per character</td><td>Phase 5's 3-clip fingerprint falsely flagged legitimate routed behavior as off-character. In a lineup, that same artifact <b>masquerades as convergence</b>.</td></tr>
+    <tr><td><b>Positive control</b></td><td>hidden real library clip per character; void the run if it is misattributed</td><td>The rule the Aug 5–20 block was built on: every judge dimension needs a control it can fail. This is the control Juno's earlier margins never had.</td></tr>
+    <tr><td><b>Repeats</b></td><td class="num">3 passes, order-flipped</td><td>Gemini nondeterminism — mandatory since Phase 2; single-pass reads flipped between rounds elsewhere in the block.</td></tr>
+    <tr><td><b>Decision metric</b></td><td>attribution accuracy vs chance + confusion matrix + per-emotion split</td><td>A single "distinct?" verdict hides <i>which pair</i> collapses and <i>which emotions</i> are generic — that is the actionable part.</td></tr>
+    <tr><td><b>Volume</b></td><td class="num">~48–60 library + 24–32 lineup</td><td>Lineup = 3–4 styles × 2 scripts × 3–4 characters. Roughly two days of pipeline runs; character builds are resumable via <code>scripts/seedance_gen.py</code> + <code>state.json</code>.</td></tr>
+  </tbody>
+</table>
+
+<div class="grid2" style="margin-top:14px">
+  <div class="card"><span class="tag">outcome A</span><h3>They stay distinguishable when masked</h3>
+    <p>The library pipeline is a genuine <b>personality</b> mechanism, not just an expressiveness knob — and the
+    multi-character virtual-cast story holds: you can build a cast whose members read as different people from body
+    language alone.</p></div>
+  <div class="card"><span class="tag">outcome B</span><h3>They converge</h3>
+    <p>The honest restatement: <b>the library buys expressiveness, not identity.</b> Routing still ships for the
+    authenticity win, but "distinct virtual characters" would need the differentiation injected somewhere else —
+    prompt-level quirk conditioning per render, or engine-side.</p></div>
+</div>
+
+<div class="warn-box">
+  <div class="ct">⚠ not a blocker</div>
+  <p style="margin:4px 0 0">Nothing in the shipping path waits on this. The 2-way router is cleared on Phase 3's
+  evidence and should ship with a motion floor and an identity gate on the routed reference. Phase 6 decides how far
+  the <i>virtual-cast</i> claim can be pushed, not whether routing works.</p>
+</div>
+
+<h2>Next steps</h2>
+<div class="ask"><b>1.</b> <b>Ship the 2-way router</b> — expressive beats → matched footage, restrained beats → neutral
+anchor, with a motion floor and an identity gate on the routed reference (routing costs −0.093 ArcFace where it
+overrides the studio fallback).</div>
+<div class="ask"><b>2.</b> <b>Draft the character bibles and the lineup judge protocol before spending renders</b> —
+including the hidden-library-clip positive control and the full-signature fingerprint. Both are cheap on paper and
+expensive to retrofit after 80 generations.</div>
+<div class="ask"><b>3.</b> <b>Re-score Juno's existing Phase 2 / 3 / 5 pairwise reads with that control</b> before the
+7–1 / 5–3 / 6–2 margins are quoted again. No new renders required — the clips are all hosted and listed in the
+appendix.</div>
+<div class="ask"><b>4.</b> <b>Treat the intensity ceiling as an engine ask.</b> Approved extreme references got the
+character axis but not the intensity; expressiveness controls or prompt weighting are the lever, not more footage.</div>
+
+<h2>Where this sits in the wider effort</h2>
+<div class="gal">
+  <a class="ct-card" href="https://www.heygenverse.com/a/a08166b7-7960-4524-a331-a9d877eb84bd" target="_blank">
+    <div class="ct-top"><span class="ct-name">Does a footage library keep getting better as it grows?</span><span class="live live-y">CLOSING BRIEF</span></div>
+    <div class="ct-url">HV a08166b7 · Aug 5–20</div>
+    <div class="ct-body">What the whole block settles and what is void. Juno supplies the 2-way router, the intensity ceiling and the speech-destabilization cost; §4 is the dose-ladder design that settles the growth half of the board claim.</div>
+  </a>
+  <a class="ct-card" href="https://www.heygenverse.com/a/b553039c-a74c-4880-a137-847e99057ccc" target="_blank">
+    <div class="ct-top"><span class="ct-name">Footage Libraries → Reference Routing — Week Log</span><span class="live live-y">LOG</span></div>
+    <div class="ct-url">HV b553039c · 15 experiments</div>
+    <div class="ct-body">Every experiment with watchable side-by-side clips, including Juno Phases 3–5. Closing mechanism: a reference transfers what the prompt leaves room for.</div>
+  </a>
+  <a class="ct-card" href="https://www.heygenverse.com/a/7c52cf3d-3ace-4c1f-965f-1e21197651f7" target="_blank">
+    <div class="ct-top"><span class="ct-name">Seedance 2 presenter-style eval — does reference footage help?</span><span class="live live-y">DONE</span></div>
+    <div class="ct-url">HV 7c52cf3d</div>
+    <div class="ct-body">The real-human counterpart on the same lever: gesture +1.18 from routing on Seedance, +0.29 on Avatar V. Its authenticity scores were withheld — the controls failed.</div>
+  </a>
+  <a class="ct-card" href="https://www.heygenverse.com/a/e1c28cd4-b5cb-4538-b7c8-8ee85e6f158f" target="_blank">
+    <div class="ct-top"><span class="ct-name">One Great Capture, Not an Emotion Library</span><span class="live live-y">STRATEGY</span></div>
+    <div class="ct-url">HV e1c28cd4</div>
+    <div class="ct-body">The capture-side counterpart for real humans: emotion is synthesized at render time on Avatar V, so ask for one 45–60s expressive capture rather than an emotion set.</div>
+  </a>
+</div>
+
+<footer>Workdir <code>~/virtual_twin_library/</code> · plan doc: Notion “Virtual Digital Twin Footage Library —
+Experiment Plan (Aug 2026)” · engine Seedance 2.0 (ep-20260407050955-dldjv) · judges: ArcFace buffalo_l ·
+resemblyzer · Gemini 3.1 Pro (temp 0, schema-forced)</footer>
+
+<h2>Reproduction appendix — no SQL in this experiment; every number traces to a generation task + gate JSON</h2>
+<details><summary>Generation pipeline (ARK Seedance 2.0) — payloads & task IDs</summary>
+<pre><code>POST https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks
+model: ep-20260407050955-dldjv · ratio 16:9 · duration 12 · resolution 720p · generate_audio: true
+
+anchor    = text prompt + first_frame(identity.png)          → cgt-20260805091207-vdqxz
+emotion_i = text prompt + reference_video(anchor_ref.mp4)    → tasks:
+  emotion:confident: cgt-20260805092024-ss5tp
+  emotion:confident_r2: cgt-20260805112513-h8tvz
+  emotion:empathetic: cgt-20260805092012-4glw6
+  emotion:emphatic: cgt-20260805092004-4hzzw
+  emotion:emphatic_r2: cgt-20260805111132-jdxql
+  emotion:excited: cgt-20260805092002-tfqjr
+  emotion:excited_r2: cgt-20260805110816-fvpht
+  emotion:excited_rff: cgt-20260805121831-hnfjj
+  emotion:laugh: cgt-20260805092020-spjpz
+  emotion:laugh_r2: cgt-20260805111929-xh4qz
+  emotion:serious: cgt-20260805092005-cql8q
+  emotion:serious_r2: cgt-20260805111513-xkgdn
+  emotion:serious_rff: cgt-20260805122150-hsxmm
+  emotion:urgent: cgt-20260805092013-wx8mp
+  emotion:wow: cgt-20260805092023-drldm
+Prompts: ~/virtual_twin_library/prompts.json (quirk-explicit, quoted dialogue; NO reference_audio)</code></pre></details>
+<details><summary>Phase 2/3 A/B — cells, judge protocol, task IDs</summary>
+<pre><code>Phase 2: 4 beats × (routed|default ref) × 2 reps = 16 gens; NEW scripts, no gesture wording.
+Phase 3: 8 production prompts × (routed|control=anchor) = 16 gens; native ratios.
+Pairwise judge: Gemini 3.1 Pro studies the routed library clip first (mannerism inventory), then
+picks A vs B on HER-specific mannerisms only; 3 passes, pass 2 order-flipped, majority. Trust pairwise
+over absolute scores (saturation). Per-cell: ArcFace(6 frames), resemblyzer voice-cos vs anchor,
+transcript/adherence via Gemini. Results: phase2/judge_results.json, phase3/judge_results.json.
+Task IDs:
+  p2:b1_excited:default:r1: cgt-20260805122754-mtwln
+  p2:b1_excited:default:r2: cgt-20260805122755-6xtt2
+  p2:b1_excited:routed:r1: cgt-20260805122751-tdjhd
+  p2:b1_excited:routed:r2: cgt-20260805122752-qmhzv
+  p2:b2_serious:default:r1: cgt-20260805122815-s5g68
+  p2:b2_serious:default:r2: cgt-20260805122816-qhzqq
+  p2:b2_serious:routed:r1: cgt-20260805122813-jssfn
+  p2:b2_serious:routed:r2: cgt-20260805122813-wvg8p
+  p2:b3_empathetic:default:r1: cgt-20260805122836-kb9w2
+  p2:b3_empathetic:default:r2: cgt-20260805122837-v8pg7
+  p2:b3_empathetic:routed:r1: cgt-20260805122833-zmsqt
+  p2:b3_empathetic:routed:r2: cgt-20260805122834-s5lxs
+  p2:b4_emphatic:default:r1: cgt-20260805122858-h92r2
+  p2:b4_emphatic:default:r2: cgt-20260805122859-98r7v
+  p2:b4_emphatic:routed:r1: cgt-20260805122854-qxxl2
+  p2:b4_emphatic:routed:r2: cgt-20260805122855-nn8q9
+  p3:p1_papers:control: cgt-20260805140731-6x2kg
+  p3:p1_papers:routed: cgt-20260805140730-4mbpj
+  p3:p2_ski:control: cgt-20260805140756-gjjcn
+  p3:p2_ski:routed: cgt-20260805140754-fpgjf
+  p3:p3_realestate:control: cgt-20260805140811-qvdxk
+  p3:p3_realestate:routed: cgt-20260805140810-dck6x
+  p3:p4_money:control: cgt-20260805140814-j8fzl
+  p3:p4_money:routed: cgt-20260805140813-5flfn
+  p3:p5_fieldsvc:control: cgt-20260805140817-89bsx
+  p3:p5_fieldsvc:routed: cgt-20260805140816-22pjf
+  p3:p6_comedy:control: cgt-20260805140820-dvqdl
+  p3:p6_comedy:routed: cgt-20260805140818-jmnvb
+  p3:p7_aivlog:control: cgt-20260805140823-jkzbm
+  p3:p7_aivlog:routed: cgt-20260805140821-s56hv
+  p3:p8_travel:control: cgt-20260805140843-bvfpg
+  p3:p8_travel:routed: cgt-20260805140842-cw6bs
+  p4:controlled_fury:control: cgt-20260806041359-v45sx
+  p4:controlled_fury:routed: cgt-20260806041358-v2kn9
+  p4:ecstatic_win:control: cgt-20260806041327-nwgcf
+  p4:ecstatic_win:routed: cgt-20260806041326-dhrz6
+  p4:empathetic1:control: cgt-20260806023005-59gqk
+  p4:empathetic1:routed: cgt-20260806023004-m8rjs
+  p4:empathetic2:control: cgt-20260806023008-69mkw
+  p4:empathetic2:routed: cgt-20260806023007-sq5v4
+  p4:empathetic3:control: cgt-20260806023011-bz5wt
+  p4:empathetic3:routed: cgt-20260806023010-gn6z6
+  p4:emphatic1:control: cgt-20260806023014-g9zfx
+  p4:emphatic1:routed: cgt-20260806023012-wdf9k
+  p4:emphatic2:control: cgt-20260806023017-sfgt7
+  p4:emphatic2:routed: cgt-20260806023015-qpgjk
+  p4:emphatic3:control: cgt-20260806023019-lz5vk
+  p4:emphatic3:routed: cgt-20260806023018-fkdxc
+  p4:excited1:control: cgt-20260806022948-hg9kg
+  p4:excited1:routed: cgt-20260806022945-492bb
+  p4:excited2:control: cgt-20260806022951-crz52
+  p4:excited2:routed: cgt-20260806022950-fch6p
+  p4:excited3:control: cgt-20260806022954-8qg45
+  p4:excited3:routed: cgt-20260806022952-mmpts
+  p4:fighting_tears:control: cgt-20260806041402-m6d8f
+  p4:fighting_tears:routed: cgt-20260806041401-2fbdp
+  p4:hysterical_laugh:control: cgt-20260806041351-tt7sd
+  p4:hysterical_laugh:routed: cgt-20260806041349-gfdkn
+  p4:novel_gesture:control: cgt-20260806041408-xwq9w
+  p4:novel_gesture:routed: cgt-20260806041407-sqqs2
+  p4:panic_warning:control: cgt-20260806041354-d4wrc
+  p4:panic_warning:routed: cgt-20260806041353-blwb5
+  p4:serious1:control: cgt-20260806022957-xtzjk
+  p4:serious1:routed: cgt-20260806022955-h6cxn
+  p4:serious2:control: cgt-20260806023000-p9pxc
+  p4:serious2:routed: cgt-20260806022958-vlpxm
+  p4:serious3:control: cgt-20260806023003-7267x
+  p4:serious3:routed: cgt-20260806023001-znb7d
+  p4:shock_gasp:control: cgt-20260806041330-dgmbc
+  p4:shock_gasp:routed: cgt-20260806041329-tvt4v
+  p4:sig_combo:control: cgt-20260806041405-tbpg2
+  p4:sig_combo:routed: cgt-20260806041404-xh6jw
+  p5b:controlled_fury:routed: cgt-20260807022423-kxxgw
+  p5b:ecstatic_win:routed: cgt-20260807022316-hpqbj
+  p5b:fighting_tears:routed: cgt-20260807022440-f742s
+  p5b:hysterical_laugh:routed: cgt-20260807022350-c4mfj
+  p5b:novel_gesture:routed: cgt-20260807022514-wsqtp
+  p5b:panic_warning:routed: cgt-20260807022406-xnqjt
+  p5b:shock_gasp:routed: cgt-20260807022333-djw4s
+  p5b:sig_combo:routed: cgt-20260807022457-tbv9n</code></pre></details>
+<details><summary>Phase 3 prompt sampling — Snowflake via Hex</summary>
+<pre><code>-- HEYGEN.HEYGEN_MYSQL.SEEDANCE_GENERATIONS (timestamp col = CREATED_TS)
+WITH base AS (
+  SELECT sg.PROMPT, sg.USERNAME, sg.RATIO, sg.CREATED_TS
+  FROM HEYGEN.HEYGEN_MYSQL.SEEDANCE_GENERATIONS sg
+  WHERE sg.GENERATION_STATUS = 'completed'
+    AND sg.CREATED_TS &gt;= DATEADD('day', -21, CURRENT_DATE())
+    AND LENGTH(sg.PROMPT) BETWEEN 120 AND 900
+    AND (sg.PROMPT LIKE '%"%"%' OR sg.PROMPT ILIKE '%she says%' OR sg.PROMPT ILIKE '%he says%'
+         OR sg.PROMPT ILIKE '%saying "%' OR sg.PROMPT ILIKE '%dialogue%')
+), dedup AS (
+  SELECT PROMPT, MIN(USERNAME) AS username, COUNT(DISTINCT USERNAME) AS n_users,
+         MAX(CREATED_TS) AS last_used, MAX(RATIO) AS ratio
+  FROM base GROUP BY PROMPT
+)
+SELECT d.PROMPT, d.n_users, d.last_used, d.ratio
+FROM dedup d JOIN DBT.PROD_INT.USER_CENTER uc ON uc.USERNAME = d.username
+WHERE d.n_users &lt; 5 AND uc.EMAIL NOT LIKE '%@heygen.com%' AND uc.EMAIL NOT LIKE '%@wenjun.com%'
+ORDER BY d.last_used DESC LIMIT 60
+-- 60 rows returned; 8 selected for scenario diversity; person descriptor adapted to
+-- "the woman from the reference video", scene/wardrobe/action/dialogue kept verbatim.</code></pre></details>
+<details><summary>Gate methodology — per-clip JSON in ~/virtual_twin_library/review/</summary>
+<pre><code>identity : ArcFace (insightface buffalo_l) cosine, 6 evenly-spaced frames vs identity.png → mean/min
+voice    : resemblyzer speaker-embedding cosine, clip audio (16k mono) vs anchor.wav
+gesture  : Gemini 3.1 Pro (gemini-3.1-pro-preview, temp 0, response_schema-forced JSON) watches the mp4
+           with the generation prompt; reports transcript, gesture seen, glasses, artifacts
+script   : difflib ratio(normalized expected line, normalized transcript) — catches ref-reconstruction leak
+pass     : arc_mean ≥ .45 ∧ artifacts ≤ minor ∧ gesture_match ∧ glasses ∧ script ≥ .75 ∧ voice ≥ .75</code></pre></details>
+<!-- CONTENT END -->
+</div>
+</body>
+</html>
